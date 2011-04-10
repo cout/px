@@ -52,7 +52,20 @@ private:
 
 int main()
 {
-  Parser p;
-  p.parse_stream(std::cin);
+  try
+  {
+    Parser p;
+    p.parse_stream(std::cin);
+  }
+  catch(std::exception const & ex)
+  {
+    std::cout << ex.what() << std::endl;
+    return 1;
+  }
+  catch(...)
+  {
+    std::cout << "Unknown exception" << std::endl;
+    return 1;
+  }
 }
 
