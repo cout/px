@@ -14,6 +14,7 @@
   identifier = ([A-Z][a-z])([A-Z][a-z][0-9])*;
 
   main := |*
+    [ \t]      => { } ;
     "\n"       => { cb.have_token(PTOKEN_NEWLINE, token);   } ;
     ";"        => { cb.have_token(PTOKEN_SEMICOLON, token); } ;
     "="        => { cb.have_token(PTOKEN_ASSIGN, token);    } ;
