@@ -1,0 +1,8 @@
+*.d
+*.o
+*~
+.*.swp
+p.cpp
+p.hpp
+p.out
+scanner.cpp
