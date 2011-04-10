@@ -20,6 +20,6 @@ main: $(OBJS)
 	$(CXX) $(LDFLAGS) $(OBJS) -o $@
 
 CFLAGS += -MMD
-DEP_FILES = $(patsubst $(OBJS),%.o,%.d)
+DEP_FILES = $(patsubst %.o,%.d,$(OBJS))
 -include $(DEP_FILES)
 

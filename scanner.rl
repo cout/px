@@ -62,41 +62,64 @@
 PScanner::
 PScanner()
   : token_()
+  , have_(0)
 {
+  %% write init;
+}
+
+size_t
+PScanner::
+buffer_space_remaining(size_t bufsize, size_t have)
+{
+  // How much space is in the buffer?
+  size_t space = bufsize - have;
+  if ( space == 0 ) {
+    throw std::runtime_error("Token too big");
+  }
+
+  return space;
+}
+
+void
+PScanner::
+check_for_error()
+{
+  if ( cs < %%{ write first_final; }%% ) {
+    throw std::runtime_error("Parse error");
+  }
+}
+
+void
+PScanner::
+check_for_fragments(char const * p, char const * pe)
+{
+  if ( ts == 0 )
+    have_ = 0;
+  else {
+    /* There is a prefix to preserve, shift it over. */
+    have_ = pe - ts;
+    std::memmove( inbuf_, ts, have_ );
+    te = inbuf_ + (te-ts);
+    ts = inbuf_;
+  }
 }
 
 int
 PScanner::
-p_scan(std::istream & in)
+scan_stream(std::istream & in)
 {
-  int cs, act;
-  char *ts, *te;
-  int stack[1], top;
-
-  size_t const BUFSIZE = 1024;
-  static char inbuf[BUFSIZE];
-  bool single_line = false;
-  int inline_depth = 0;
-
-  %% write init;
-
   bool done = false;
-  int have = 0;
   while ( !done ) {
-    /* How much space is in the buffer? */
-    int space = BUFSIZE - have;
-    if ( space == 0 ) {
-      throw std::runtime_error("Token too big");
-    }
+    size_t space = buffer_space_remaining(BUFSIZE, have_);
 
-    /* Read in a block. */
-    char *p = inbuf + have;
+    // Read in a block.
+    char *p = inbuf_ + have_; // Ragel: current character position
     in.read( p, space );
     int len = in.gcount();
-    char *pe = p + len;
+    char *pe = p + len; // Ragel: pointer to buffer end
     char *eof = 0;
 
-    /* Check for EOF. */
+    // Check for EOF.
     if ( len == 0 ) {
       eof = pe;
       done = true;
@@ -104,21 +127,8 @@ p_scan(std::istream & in)
 
     %% write exec;
 
-/*
-    if ( cs == RagelScan_error ) {
-      throw std::runtime_error("Parse error");
-    }
-*/
-
-    if ( ts == 0 )
-      have = 0;
-    else {
-      /* There is a prefix to preserve, shift it over. */
-      have = pe - ts;
-      std::memmove( inbuf, ts, have );
-      te = inbuf + (te-ts);
-      ts = inbuf;
-    }
+    check_for_error();
+    check_for_fragments(p, pe);
   }
   return 0;
 }
