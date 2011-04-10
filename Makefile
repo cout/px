@@ -5,6 +5,8 @@ OBJS = \
 	p.o \
 	scanner.o
 
+CFLAGS += -ggdb
+
 p.cpp p.hpp: p.y
 	lemon p.y
 	mv p.c p.cpp
@@ -18,6 +20,10 @@ scanner.cpp: scanner.rl
 
 main: $(OBJS)
 	$(CXX) $(LDFLAGS) $(OBJS) -o $@
+
+.PHONY: clean
+clean:
+	rm -f $(OBJS) p.c p.cpp p.h p.hpp scanner.cpp
 
 CFLAGS += -MMD
 DEP_FILES = $(patsubst %.o,%.d,$(OBJS))

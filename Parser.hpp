@@ -3,12 +3,13 @@
 
 #include "Token.hpp"
 #include "scanner.hpp"
+#include "ast.hpp"
 
 #include <cstdlib>
 
 void *PParseAlloc(void *(*mallocProc)(size_t));
 void PParseFree(void *p, void (*freeProc)(void*));
-void PParse(void *yyp, int yymajor, Token yyminor);
+void PParse(void *yyp, int yymajor, Token yyminor, Expression * * root);
 void PParseTrace(FILE * stream, char * zPrefix);
 
 class Parser
@@ -39,7 +40,8 @@ public:
 protected:
   virtual void have_token(int id, Token const & token)
   {
-    PParse(parser_, id, token);
+    Expression * root;
+    PParse(parser_, id, token, &root);
   }
 
 private:

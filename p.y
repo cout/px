@@ -17,6 +17,8 @@
 
 %destructor expr { delete $$; }
 
+%extra_argument { Expression * * root }
+
 %parse_failure {
   throw std::runtime_error("parse failure");
 }
@@ -43,7 +45,7 @@
 throw std::runtime_error("Syntax error");
 }
 
-program ::= expr.
+program ::= expr(EXPR). { *root = EXPR; }
 
 /* Arithmetic operators */
 expr ::= arith.
