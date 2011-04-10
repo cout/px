@@ -84,7 +84,7 @@ PScanner::
 check_for_error()
 {
   if ( cs < %%{ write first_final; }%% ) {
-    throw std::runtime_error("Parse error");
+    throw std::runtime_error("Error occurred during scanning");
   }
 }
 
