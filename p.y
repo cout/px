@@ -1,17 +1,29 @@
 %include {
+#include "ast.hpp"
+#include "p.hpp"
+#include "Token.hpp"
+
 #include <iostream>
 #include <stdexcept>
 #include <cassert>
-#include "p.hpp"
-#include "Token.hpp"
 }
 
 %token_type { Token }
-%default_type { Token }
 %name PParse
 %token_prefix PTOKEN_
 
-%type expr { Token }
+%type expr { Expression * }
+%default_type { Expression * }
+
+%destructor expr { delete $$; }
+
+%parse_failure {
+  throw std::runtime_error("parse failure");
+}
+
+%stack_overflow {
+  throw std::runtime_error("stack overflow");
+}
 
 /* TODO: precedence and associativity of parens/braces? */
 %left NEWLINE SEMICOLON.
@@ -35,51 +47,55 @@ program ::= expr.
 
 /* Arithmetic operators */
 expr ::= arith.
-arith ::= expr MINUS expr.
-arith ::= expr PLUS expr.
-arith ::= expr TIMES expr.
-arith ::= expr DIVIDE expr.
-arith ::= expr MOD expr.
-arith ::= expr EXP expr.
+arith(RESULT) ::= expr(LHS) MINUS expr(RHS).  { RESULT = new Send("minus", LHS, RHS); }
+arith(RESULT) ::= expr(LHS) PLUS expr(RHS).   { RESULT = new Send("plus", LHS, RHS);  }
+arith(RESULT) ::= expr(LHS) TIMES expr(RHS).  { RESULT = new Send("times", LHS, RHS); }
+arith(RESULT) ::= expr(LHS) DIVIDE expr(RHS). { RESULT = new Send("div", LHS, RHS);   }
+arith(RESULT) ::= expr(LHS) MOD expr(RHS).    { RESULT = new Send("mod", LHS, RHS);   }
+arith(RESULT) ::= expr(LHS) EXP expr(RHS).    { RESULT = new Send("exp", LHS, RHS);   }
 
 /* Logical operators */
 expr ::= logic.
-logic ::= expr EQ expr.
-logic ::= expr NE expr.
-logic ::= expr GT expr.
-logic ::= expr GE expr.
-logic ::= expr LT expr.
-logic ::= expr LE expr.
-logic ::= NOT expr.
+logic(RESULT) ::= expr(LHS) EQ expr(RHS). { RESULT = new Send("eq", LHS, RHS); }
+logic(RESULT) ::= expr(LHS) NE expr(RHS). { RESULT = new Send("ne", LHS, RHS); }
+logic(RESULT) ::= expr(LHS) GT expr(RHS). { RESULT = new Send("gt", LHS, RHS); }
+logic(RESULT) ::= expr(LHS) GE expr(RHS). { RESULT = new Send("ge", LHS, RHS); }
+logic(RESULT) ::= expr(LHS) LT expr(RHS). { RESULT = new Send("lt", LHS, RHS); }
+logic(RESULT) ::= expr(LHS) LE expr(RHS). { RESULT = new Send("le", LHS, RHS); }
+logic(RESULT) ::= NOT expr(EXPR).         { RESULT = new Send("not", EXPR, new Null); }
 
 /* Literals */
 expr ::= literal.
-literal ::= INTEGER|FLOAT|STRING.
+literal ::= INTEGER.
+literal ::= FLOAT.
+literal ::= STRING.
 
 /* Tuples */
 expr ::= tuple.
 tuple ::= LPAREN expr RPAREN.
 
 /* Comma operator */
-expr ::= expr COMMA expr.
+expr ::= list.
+list(RESULT) ::= expr(LHS) COMMA expr(RHS). { RESULT = new Send("comma", LHS, RHS); }
 
 /* Function calls */
 /* TODO: keyword arguments */
 expr ::= funcall.
-funcall ::= expr tuple.
-funcall ::= expr tuple block.
+funcall(RESULT) ::= expr(RECV) tuple(ARGS). { RESULT = new Send("call", RECV, ARGS); }
+funcall(RESULT) ::= expr(RECV) tuple(ARGS) block(BLOCK). {
+  Expression * args = new Send("comma", ARGS, BLOCK);
+  RESULT = new Send("call", RECV, args);
+}
 
 /* Blocks */
 expr ::= block.
-block ::= LBRACE expr RBRACE.
-
-/* Statements */
-expr ::= expr NEWLINE expr.
-expr ::= expr SEMICOLON expr.
+block(RESULT) ::= LBRACE expr(EXPR) RBRACE. { RESULT = new Block(EXPR); }
+expr(RESULT) ::= expr(LHS) NEWLINE expr(RHS). { RESULT = new Send("newline", LHS, RHS); }
+expr(RESULT) ::= expr(LHS) SEMICOLON expr(RHS). { RESULT = new Send("semicolon", LHS, RHS); }
 
 /* Pairs */
 expr ::= pair.
-pair ::= expr COLON expr.
+pair(RESULT) ::= expr(LHS) COLON expr(RHS). { RESULT = new Send("colon", LHS, RHS); }
 
 /* Assignment */
 expr ::= assignment.
