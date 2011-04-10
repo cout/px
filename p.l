@@ -80,7 +80,7 @@ void yyerror(char * s)
   scanner_error(s);
 }
 
-int yywrap()
+int yyFlexLexer::yywrap()
 {
   return 1;
 }
