@@ -10,8 +10,8 @@ p.cpp p.hpp: p.y
 	mv p.c p.cpp
 	mv p.h p.hpp
 
-scanner.cpp scanner.hpp: p.l
-	flex++ p.l
+scanner.cpp: scanner.rl
+	ragel scanner.rl -o scanner.cpp
 
 %.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CCFLAGS) -c $< -o $@

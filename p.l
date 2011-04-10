@@ -6,8 +6,7 @@
 
 #include "p.hpp"
 #include "Token.hpp"
-
-Token p_token;
+#include "PLexer.hpp"
 
 void scanner_error(char const * s)
 {
@@ -15,11 +14,12 @@ void scanner_error(char const * s)
   std::snprintf(buf, sizeof(buf), "Error: %s", s);
 }
 
-
 %}
 
 %option warn
 %option yylineno
+%option yyclass="PLexer"
+%option c++
 %option outfile="scanner.cpp"
 %option header-file="scanner.hpp"
 
@@ -51,22 +51,22 @@ void scanner_error(char const * s)
 "}"           { return PTOKEN_RBRACE;      } 
 
 [0-9] {
-  p_token.ival = boost::lexical_cast<long>(yytext);
+  token_.ival = boost::lexical_cast<long>(yytext);
   return PTOKEN_INTEGER;
 }
 
 [0-9]+|[0-9]*.[0-9]+ {
-  p_token.dval = boost::lexical_cast<double>(yytext);
+  token_.dval = boost::lexical_cast<double>(yytext);
   return PTOKEN_FLOAT;
 } 
 
 ([A-Z][a-z])([A-Z][a-z][0-9])* {
-  p_token.sval = yytext;
+  token_.sval = yytext;
   return PTOKEN_IDENTIFIER;
 } 
 
 "\""[^"]*"\"" {
-  p_token.sval = yytext;
+  token_.sval = yytext;
   return PTOKEN_STRING;
 } 
 

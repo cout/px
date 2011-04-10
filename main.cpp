@@ -19,9 +19,9 @@ namespace
 
 void parse_file(void * parser, std::istream & in)
 {
-  yyFlexLexer lexer(&in);
-  int yv = lexer.yylex(); // TODO: loop?
-  PParse(parser, yv, p_token);
+  PScanner scanner;
+  // int yv = scanner.next_token();
+  // PParse(parser, yv, scanner.token());
 }
 
 class ParserGuard
