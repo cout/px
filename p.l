@@ -5,9 +5,9 @@
 #include <boost/lexical_cast.hpp>
 
 #include "p.hpp"
-#include "lexglobal.hpp"
+#include "Token.hpp"
 
-YYSTYPE yylval;
+Token p_token;
 
 void scanner_error(char const * s)
 {
@@ -21,6 +21,7 @@ void scanner_error(char const * s)
 %option warn
 %option yylineno
 %option outfile="scanner.cpp"
+%option header-file="scanner.hpp"
 
 %%
 
@@ -50,22 +51,22 @@ void scanner_error(char const * s)
 "}"           { return PTOKEN_RBRACE;      } 
 
 [0-9] {
-  yylval.ival = boost::lexical_cast<long>(yytext);
+  p_token.ival = boost::lexical_cast<long>(yytext);
   return PTOKEN_INTEGER;
 }
 
 [0-9]+|[0-9]*.[0-9]+ {
-  yylval.dval = boost::lexical_cast<double>(yytext);
+  p_token.dval = boost::lexical_cast<double>(yytext);
   return PTOKEN_FLOAT;
 } 
 
 ([A-Z][a-z])([A-Z][a-z][0-9])* {
-  yylval.sval = yytext;
+  p_token.sval = yytext;
   return PTOKEN_IDENTIFIER;
 } 
 
 "\""[^"]*"\"" {
-  yylval.sval = yytext;
+  p_token.sval = yytext;
   return PTOKEN_STRING;
 } 
 
