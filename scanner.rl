@@ -14,45 +14,45 @@
   identifier = ([A-Z][a-z])([A-Z][a-z][0-9])*;
 
   main := |*
-    "\n"       => { return PTOKEN_NEWLINE;     } ;
-    ";"        => { return PTOKEN_SEMICOLON;   } ;
-    "="        => { return PTOKEN_ASSIGN;      } ;
-    ","        => { return PTOKEN_COMMA;       } ;
-    ":"        => { return PTOKEN_COLON;       } ;
-    "&"        => { return PTOKEN_AND;         } ;
-    "|"        => { return PTOKEN_OR;          } ;
-    "=="       => { return PTOKEN_EQ;          } ;
-    "!="       => { return PTOKEN_NE;          } ;
-    ">"        => { return PTOKEN_GT;          } ;
-    ">="       => { return PTOKEN_GE;          } ;
-    "<"        => { return PTOKEN_LT;          } ;
-    "<="       => { return PTOKEN_LE;          } ;
-    "+"        => { return PTOKEN_PLUS;        } ;
-    "-"        => { return PTOKEN_MINUS;       } ;
-    "/"        => { return PTOKEN_DIVIDE;      } ;
-    "*"        => { return PTOKEN_TIMES;       } ;
-    "%"        => { return PTOKEN_MOD;         } ;
-    "^"        => { return PTOKEN_EXP;         } ;
-    "!"        => { return PTOKEN_NOT;         } ;
-    "("        => { return PTOKEN_LPAREN;      } ;
-    ")"        => { return PTOKEN_RPAREN;      } ;
-    "{"        => { return PTOKEN_LBRACE;      } ;
-    "}"        => { return PTOKEN_RBRACE;      } ;
+    "\n"       => { cb.have_token(PTOKEN_NEWLINE, token);   } ;
+    ";"        => { cb.have_token(PTOKEN_SEMICOLON, token); } ;
+    "="        => { cb.have_token(PTOKEN_ASSIGN, token);    } ;
+    ","        => { cb.have_token(PTOKEN_COMMA, token);     } ;
+    ":"        => { cb.have_token(PTOKEN_COLON, token);     } ;
+    "&"        => { cb.have_token(PTOKEN_AND, token);       } ;
+    "|"        => { cb.have_token(PTOKEN_OR, token);        } ;
+    "=="       => { cb.have_token(PTOKEN_EQ, token);        } ;
+    "!="       => { cb.have_token(PTOKEN_NE, token);        } ;
+    ">"        => { cb.have_token(PTOKEN_GT, token);        } ;
+    ">="       => { cb.have_token(PTOKEN_GE, token);        } ;
+    "<"        => { cb.have_token(PTOKEN_LT, token);        } ;
+    "<="       => { cb.have_token(PTOKEN_LE, token);        } ;
+    "+"        => { cb.have_token(PTOKEN_PLUS, token);      } ;
+    "-"        => { cb.have_token(PTOKEN_MINUS, token);     } ;
+    "/"        => { cb.have_token(PTOKEN_DIVIDE, token);    } ;
+    "*"        => { cb.have_token(PTOKEN_TIMES, token);     } ;
+    "%"        => { cb.have_token(PTOKEN_MOD, token);       } ;
+    "^"        => { cb.have_token(PTOKEN_EXP, token);       } ;
+    "!"        => { cb.have_token(PTOKEN_NOT, token);       } ;
+    "("        => { cb.have_token(PTOKEN_LPAREN, token);    } ;
+    ")"        => { cb.have_token(PTOKEN_RPAREN, token);    } ;
+    "{"        => { cb.have_token(PTOKEN_LBRACE, token);    } ;
+    "}"        => { cb.have_token(PTOKEN_RBRACE, token);    } ;
     integer    => { 
       // token_.ival = boost::lexical_cast<long>(yytext);
-      return PTOKEN_INTEGER;
+      cb.have_token(PTOKEN_INTEGER, token);
     };
     float      => {
       // token_.dval = boost::lexical_cast<double>(yytext);
-      return PTOKEN_FLOAT;
+      cb.have_token(PTOKEN_FLOAT, token);
     };
     string     => {
       // token_.sval = yytext;
-      return PTOKEN_STRING;
+      cb.have_token(PTOKEN_STRING, token);
     };
     identifier => {
       // token_.sval = yytext;
-      return PTOKEN_IDENTIFIER;
+      cb.have_token(PTOKEN_IDENTIFIER, token);
     };
   *|;
 }%%
@@ -61,8 +61,7 @@
 
 PScanner::
 PScanner()
-  : token_()
-  , have_(0)
+  : have_(0)
 {
   %% write init;
 }
@@ -106,8 +105,10 @@ check_for_fragments(char const * p, char const * pe)
 
 int
 PScanner::
-scan_stream(std::istream & in)
+scan_stream(std::istream & in, PScanner_Callback & cb)
 {
+  Token token;
+
   bool done = false;
   while ( !done ) {
     size_t space = buffer_space_remaining(BUFSIZE, have_);

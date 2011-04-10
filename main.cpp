@@ -17,35 +17,42 @@ typedef struct yy_buffer_state * YY_BUFFER_STATE;
 namespace
 {
 
-void parse_file(void * parser, std::istream & in)
-{
-  PScanner scanner;
-  // int yv = scanner.next_token();
-  // PParse(parser, yv, scanner.token());
-}
-
-class ParserGuard
+class Parser
+  : public PScanner_Callback
 {
 public:
-  ParserGuard()
-    : parser(PParseAlloc(std::malloc))
+  Parser()
+    : scanner_()
+    , parser_(PParseAlloc(std::malloc))
   {
   }
 
-  ~ParserGuard()
+  ~Parser()
   {
-    PParseFree(parser, std::free);
+    PParseFree(parser_, std::free);
   }
 
-public:
-  void * parser;
+  void parse_stream(std::istream & in)
+  {
+    scanner_.scan_stream(in, *this);
+  }
+
+protected:
+  virtual void have_token(int id, Token const & token)
+  {
+    PParse(parser_, id, token);
+  }
+
+private:
+  PScanner scanner_;
+  void * parser_;
 };
 
-}
+} // namespace
 
 int main()
 {
-  ParserGuard pg;
-  parse_file(pg.parser, std::cin);
+  Parser p;
+  p.parse_stream(std::cin);
 }
 
