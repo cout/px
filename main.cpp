@@ -8,6 +8,7 @@ int main()
   {
     Parser p;
     p.parse_stream(std::cin);
+    std::cout << p.root()->to_string() << std::endl;
   }
   catch(std::exception const & ex)
   {

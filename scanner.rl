@@ -104,7 +104,7 @@ check_for_fragments(char const * p, char const * pe)
   }
 }
 
-int
+void
 PScanner::
 scan_stream(std::istream & in, PScanner_Callback & cb)
 {
@@ -132,5 +132,6 @@ scan_stream(std::istream & in, PScanner_Callback & cb)
     check_for_error();
     check_for_fragments(p, pe);
   }
-  return 0;
+
+  cb.have_token(0, token);
 }

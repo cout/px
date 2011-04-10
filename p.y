@@ -12,6 +12,7 @@
 %name PParse
 %token_prefix PTOKEN_
 
+%start_symbol program
 %type expr { Expression * }
 %default_type { Expression * }
 
@@ -45,12 +46,13 @@
 throw std::runtime_error("Syntax error");
 }
 
-program ::= expr(EXPR). { *root = EXPR; }
+program ::= expr(EXPR). { std::cout << "setting root" << std::endl; *root = EXPR; }
 
 /* Arithmetic operators */
-expr ::= arith.
+expr ::= arith. { std::cout << "ARITH" << std::endl; }
 arith(RESULT) ::= expr(LHS) MINUS expr(RHS).  { RESULT = new Send("minus", LHS, RHS); }
-arith(RESULT) ::= expr(LHS) PLUS expr(RHS).   { RESULT = new Send("plus", LHS, RHS);  }
+arith(RESULT) ::= expr(LHS) PLUS expr(RHS).   { RESULT = new
+Send("plus", LHS, RHS); std::cout << "PLUS" << std::endl; }
 arith(RESULT) ::= expr(LHS) TIMES expr(RHS).  { RESULT = new Send("times", LHS, RHS); }
 arith(RESULT) ::= expr(LHS) DIVIDE expr(RHS). { RESULT = new Send("div", LHS, RHS);   }
 arith(RESULT) ::= expr(LHS) MOD expr(RHS).    { RESULT = new Send("mod", LHS, RHS);   }
@@ -68,7 +70,7 @@ logic(RESULT) ::= NOT expr(EXPR).         { RESULT = new Send("not", EXPR, new N
 
 /* Literals */
 expr ::= literal.
-literal ::= INTEGER.
+literal ::= INTEGER. { std::cout << "INTEGER" << std::endl; }
 literal ::= FLOAT.
 literal ::= STRING.
 

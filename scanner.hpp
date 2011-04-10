@@ -18,7 +18,7 @@ class PScanner
 public:
   PScanner();
 
-  int scan_stream(
+  void scan_stream(
       std::istream & in,
       PScanner_Callback & cb);
 

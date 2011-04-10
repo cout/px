@@ -19,6 +19,7 @@ public:
   Parser()
     : scanner_()
     , parser_(PParseAlloc(std::malloc))
+    , root_()
   {
   }
 
@@ -37,16 +38,21 @@ public:
     // TODO
   }
 
+  // TODO: calling parse_stream multiple times will overwrite root_
+  // (solution: parse_stream should return root expression, but at the
+  // moment this requires refactoring)
+  Expression * root() const { return root_; }
+
 protected:
   virtual void have_token(int id, Token const & token)
   {
-    Expression * root;
-    PParse(parser_, id, token, &root);
+    PParse(parser_, id, token, &root_);
   }
 
 private:
   PScanner scanner_;
   void * parser_;
+  Expression * root_;
 };
 
 #endif // PARSER__HPP
