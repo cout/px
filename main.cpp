@@ -1,5 +1,6 @@
 #include "Parser.hpp"
 
+#include <cstdio>
 #include <iostream>
 
 int main()
@@ -7,6 +8,8 @@ int main()
   try
   {
     Parser p;
+
+    PParseTrace(stdout, "|-| ");
     p.parse_stream(std::cin);
     std::cout << p.root()->to_string() << std::endl;
   }

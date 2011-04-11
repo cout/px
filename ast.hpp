@@ -59,4 +59,11 @@ public:
   virtual std::string to_string() const { return slot + "=" + value->to_string(); }
 };
 
+class Literal
+  : public Expression
+{
+public:
+  virtual std::string to_string() const { return "LITERAL"; }
+};
+
 #endif // AST__HPP

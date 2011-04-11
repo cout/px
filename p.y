@@ -46,7 +46,7 @@
 throw std::runtime_error("Syntax error");
 }
 
-program ::= expr(EXPR). { std::cout << "setting root" << std::endl; *root = EXPR; }
+program ::= expr(EXPR). { std::cout << "setting root to " << EXPR << std::endl; *root = EXPR; }
 
 /* Arithmetic operators */
 expr ::= arith. { std::cout << "ARITH" << std::endl; }
@@ -70,13 +70,13 @@ logic(RESULT) ::= NOT expr(EXPR).         { RESULT = new Send("not", EXPR, new N
 
 /* Literals */
 expr ::= literal.
-literal ::= INTEGER. { std::cout << "INTEGER" << std::endl; }
-literal ::= FLOAT.
-literal ::= STRING.
+literal(RESULT) ::= INTEGER. { RESULT = new Literal; }
+literal(RESULT) ::= FLOAT. { RESULT = new Literal; }
+literal(RESULT) ::= STRING. { RESULT = new Literal; }
 
 /* Tuples */
 expr ::= tuple.
-tuple ::= LPAREN expr RPAREN.
+tuple(RESULT) ::= LPAREN expr(EXPR) RPAREN. { RESULT = new Send("tuple", EXPR, new Null); }
 
 /* Comma operator */
 expr ::= list.
@@ -96,6 +96,8 @@ expr ::= block.
 block(RESULT) ::= LBRACE expr(EXPR) RBRACE. { RESULT = new Block(EXPR); }
 expr(RESULT) ::= expr(LHS) NEWLINE expr(RHS). { RESULT = new Send("newline", LHS, RHS); }
 expr(RESULT) ::= expr(LHS) SEMICOLON expr(RHS). { RESULT = new Send("semicolon", LHS, RHS); }
+expr(RESULT) ::= expr(LHS) NEWLINE. { RESULT = LHS; }
+expr(RESULT) ::= expr(LHS) SEMICOLON. { RESULT = LHS; }
 
 /* Pairs */
 expr ::= pair.
