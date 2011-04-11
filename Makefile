@@ -28,7 +28,7 @@ main: $(OBJS)
 clean:
 	rm -f $(OBJS) parser/p.c parser/p.cpp parser/p.h parser/p.hpp parser/scanner.cpp
 
-CFLAGS += -MMD
+CFLAGS += -MMD -MP
 DEP_FILES = $(patsubst %.o,%.d,$(OBJS))
 -include $(DEP_FILES)
 
