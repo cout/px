@@ -48,7 +48,7 @@ public:
     if (it == end)
     {
       std::stringstream strm;
-      strm << "No such slot " << recv->to_string();
+      strm << "No such slot " << name->to_string() << " in " << recv->to_string();
       throw std::runtime_error(strm.str());
     }
 
