@@ -36,7 +36,11 @@ public:
   Ref<Expression> message;
 
   virtual std::string to_string() const {
-    return std::string(receiver->to_string()) + std::string(".") + name->to_string() + message->to_string();
+    return std::string(
+        receiver->to_string() +
+        std::string(".") +
+        name->to_string() +
+        "(" + message->to_string() + ")");
   }
 
   virtual Ref<Object> eval(Ref<Context> context)
