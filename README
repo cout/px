@@ -28,10 +28,30 @@ Goals:
       language element
   - Should be simple to expose a C function or C++ class to the VM
 
+Basic syntax:
+
+- all operators all just messages delivered to the receiving object
+- valid operators:
+  - any valid infix operator
+  - pairing operators: ':', ',', ';', '\n'
+  - misc operators: [], []=,
+  - code block operator: { }
+- operations on local variables send messages to the current context
+  - identifier
+  - identifier = value
+- message syntax:
+  - obj msg
+  - obj msg { block }
+
 Open questions:
 
 - What kinds of messages are there?  So far:
   - Function call - context push
   - Fiber - context switch
 - Why separate mechanisms for attributes (table) and messages?
+- Nonuniformities:
+  - How can we turn lvar/lasgn into messages?
+  - How can we turn { } into a message?
+  - Once all expression nodes have been reduced to messages, where do we
+    go from there?
 
