@@ -39,6 +39,8 @@
     ")"        => { cb.have_token(PTOKEN_RPAREN, token);    } ;
     "{"        => { cb.have_token(PTOKEN_LBRACE, token);    } ;
     "}"        => { cb.have_token(PTOKEN_RBRACE, token);    } ;
+    "["        => { cb.have_token(PTOKEN_LBRACKET, token);    } ;
+    "]"        => { cb.have_token(PTOKEN_RBRACKET, token);    } ;
     integer    => { 
       // token_.ival = boost::lexical_cast<long>(yytext);
       cb.have_token(PTOKEN_INTEGER, token);

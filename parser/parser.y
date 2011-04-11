@@ -51,8 +51,8 @@
 %left PLUS MINUS.
 %left DIVIDE TIMES MOD.
 %right EXP NOT.
-%right LPAREN.
-%left RPAREN.
+%right LPAREN LBRACKET.
+%left RPAREN RBRACKET.
 
 %syntax_error {
 throw std::runtime_error("Syntax error");
@@ -109,6 +109,12 @@ expr(RESULT) ::= expr(LHS) NEWLINE expr(RHS). { RESULT = new Send("newline", LHS
 expr(RESULT) ::= expr(LHS) SEMICOLON expr(RHS). { RESULT = new Send("semicolon", LHS, RHS); }
 expr(RESULT) ::= expr(LHS) NEWLINE. { RESULT = LHS; }
 expr(RESULT) ::= expr(LHS) SEMICOLON. { RESULT = LHS; }
+
+/* Attributes */
+expr(RESULT) ::= getattr(GETATTR). { RESULT = GETATTR; }
+getattr(RESULT) ::= expr(RECV) LBRACKET expr(KEY) RBRACKET. { RESULT = new Send("get", RECV, KEY); }
+expr(RESULT) ::= setattr(SETATTR). { RESULT = SETATTR; }
+setattr(RESULT) ::= expr(RECV) LBRACKET expr(KEY) RBRACKET ASSIGN expr(VALUE). { RESULT = new Send("set", RECV, new Send("colon", KEY, VALUE)); }
 
 /* Pairs */
 expr(RESULT) ::= pair(PAIR). { RESULT = PAIR; }
