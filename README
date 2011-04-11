@@ -1,0 +1,35 @@
+Goals:
+
+- Uniformity:
+  - Everything is an object
+    - The program itself is an object (homoiconity)
+  - All objects are expressions (thus everything is an expression)
+    - Value objects are expressions that return themselves
+    - Expression objects are expressions which evaluate to something other
+      than themselves
+  - All objects are dictionaries (thus everything is a dictionary)
+    - Dictionary keys are objects (not strings)
+  - All objects are mailboxes (thus everything is an actor)
+    - Objects can receive messages
+    - Programs can send messages to objects
+
+- Minimalism:
+  - Minimal syntax
+    - No keywords
+    - Infix, not prefix (lisp) or postfix (forth)
+    - All infix expressions are evaluatable objects
+  - Minimal builtin data types
+    - so far: string, integer, float, object (table)
+
+- Readability:
+  - Hence the use of infix in spite of added parsing complexity
+    - But the infix notation is just syntactic sugar, not an additional
+      language element
+
+Open questions:
+
+- What kinds of messages are there?  So far:
+  - Function call - context push
+  - Fiber - context switch
+- Why separate mechanisms for attributes (table) and messages?
+
