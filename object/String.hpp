@@ -3,6 +3,8 @@
 
 #include "Object.hpp"
 
+#include <string>
+
 class String
   : public Object
 {

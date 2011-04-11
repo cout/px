@@ -1,10 +1,18 @@
 %include {
-#include "ast.hpp"
 #include "p.hpp"
 #include "Token.hpp"
 #include "../object/Integer.hpp"
 #include "../object/Float.hpp"
 #include "../object/String.hpp"
+#include "../expr/Assign.hpp"
+#include "../expr/Block.hpp"
+#include "../expr/Expression.hpp"
+#include "../expr/Literal.hpp"
+#include "../expr/Null.hpp"
+#include "../expr/Send.hpp"
+
+#include <iostream>
+#include <stdexcept>
 
 #include <iostream>
 #include <stdexcept>
