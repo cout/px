@@ -14,10 +14,11 @@ Goals:
     - Programs can send messages to objects
 
 - Minimalism:
-  - Minimal syntax
+  - Minimal syntax, enough syntax to be expressive
     - No keywords
     - Infix, not prefix (lisp) or postfix (forth)
     - All infix expressions are evaluatable objects
+    - Tree-structure inherit in syntax
   - Minimal builtin data types
     - so far: string, integer, float, object (table)
 
