@@ -1,9 +1,12 @@
 #ifndef AST__HPP
 #define AST__HPP
 
+#include "../object/Object.hpp"
+
 #include <string>
 
 class Expression
+  : public Object
 {
 public:
   virtual ~Expression() { }
