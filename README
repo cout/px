@@ -21,10 +21,11 @@ Goals:
   - Minimal builtin data types
     - so far: string, integer, float, object (table)
 
-- Readability:
-  - Hence the use of infix in spite of added parsing complexity
+- Ease:
+  - Readability - infix in spite of added parsing complexity
     - But the infix notation is just syntactic sugar, not an additional
       language element
+  - Should be simple to expose a C function or C++ class to the VM
 
 Open questions:
 
