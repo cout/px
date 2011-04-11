@@ -7,6 +7,8 @@ class String
   : public Object
 {
 public:
+  String(std::string const & str) : str(str) { }
+
   std::string str;
 };
 

@@ -7,8 +7,10 @@ class Integer
   : public Object
 {
 public:
+  Integer(long i) : i(i) { }
+
   long i;
 };
 
 #endif
-
+ 

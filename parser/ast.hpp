@@ -26,7 +26,7 @@ class Block
 public:
   Block(Expression * next) : next(next) { }
 
-  Expression * next;
+  Ref<Expression> next;
 
   virtual std::string to_string() const { return std::string("{") + next->to_string() + "}"; }
 };
@@ -46,8 +46,8 @@ public:
   }
 
   std::string name;
-  Expression * receiver;
-  Expression * message;
+  Ref<Expression> receiver;
+  Ref<Expression> message;
 
   virtual std::string to_string() const { return receiver->to_string() + "." + name + message->to_string(); }
 };
@@ -57,7 +57,7 @@ class Assign
 {
 public:
   std::string slot;
-  Expression * value;
+  Ref<Expression> value;
 
   virtual std::string to_string() const { return slot + "=" + value->to_string(); }
 };
@@ -66,7 +66,11 @@ class Literal
   : public Expression
 {
 public:
+  Literal(Ref<Object> value) : value(value) { }
+
   virtual std::string to_string() const { return "LITERAL"; }
+
+  Ref<Object> value;
 };
 
 #endif // AST__HPP
