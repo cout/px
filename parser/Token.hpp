@@ -1,8 +1,12 @@
 #ifndef Token__hpp_
 #define Token__hpp_
 
+#include <string>
+
+// TODO: use boost::any
 struct Token {
-  char const * sval;
+  char const * p;
+  char const * pe;
   int ival;
   double dval;
 };

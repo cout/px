@@ -1,6 +1,8 @@
 #include "scanner.hpp"
 #include "parser.hpp"
 
+#include <boost/lexical_cast.hpp>
+#
 #include <stdexcept>
 #include <cstring>
 #include <iostream>
@@ -39,22 +41,24 @@
     ")"        => { cb.have_token(PTOKEN_RPAREN, token);    } ;
     "{"        => { cb.have_token(PTOKEN_LBRACE, token);    } ;
     "}"        => { cb.have_token(PTOKEN_RBRACE, token);    } ;
-    "["        => { cb.have_token(PTOKEN_LBRACKET, token);    } ;
-    "]"        => { cb.have_token(PTOKEN_RBRACKET, token);    } ;
+    "["        => { cb.have_token(PTOKEN_LBRACKET, token);  } ;
+    "]"        => { cb.have_token(PTOKEN_RBRACKET, token);  } ;
     integer    => { 
-      // token_.ival = boost::lexical_cast<long>(yytext);
+      token.ival = boost::lexical_cast<long>(std::string(p, pe));
       cb.have_token(PTOKEN_INTEGER, token);
     };
     float      => {
-      // token_.dval = boost::lexical_cast<double>(yytext);
+      token.dval = boost::lexical_cast<double>(std::string(p, pe));
       cb.have_token(PTOKEN_FLOAT, token);
     };
     string     => {
-      // token_.sval = yytext;
+      token.p = p;
+      token.pe = pe;
       cb.have_token(PTOKEN_STRING, token);
     };
     identifier => {
-      // token_.sval = yytext;
+      token.p = p;
+      token.pe = pe;
       cb.have_token(PTOKEN_IDENTIFIER, token);
     };
   *|;

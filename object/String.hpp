@@ -10,6 +10,8 @@ class String
 {
 public:
   String(std::string const & value) : Object_T<std::string>(value) { }
+
+  String(char const * p, char const * pe) : Object_T<std::string>(std::string(p, pe)) { }
 };
 
 #endif
