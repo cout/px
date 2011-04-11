@@ -8,6 +8,9 @@ public:
   Ref() : ptr(0) { }
   Ref(Object_T * ptr) : ptr(ptr) { }
 
+  template<typename T>
+  Ref(Ref<T> ref) : ptr(ref.ptr) { }
+
   Object_T & operator*() { return *ptr; }
   Object_T * operator->() { return ptr; }
 

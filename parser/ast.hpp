@@ -2,6 +2,7 @@
 #define AST__HPP
 
 #include "../object/Object.hpp"
+#include "../object/Nil.hpp"
 
 #include <string>
 
@@ -12,12 +13,14 @@ public:
   virtual ~Expression() { }
 
   virtual std::string to_string() const = 0;
+  virtual Ref<Object> eval() = 0;
 };
 
 class Null
   : public Expression
 {
   virtual std::string to_string() const { return "()"; }
+  virtual Ref<Object> eval() { return Nil; }
 };
 
 class Block
@@ -29,6 +32,7 @@ public:
   Ref<Expression> next;
 
   virtual std::string to_string() const { return std::string("{") + next->to_string() + "}"; }
+  virtual Ref<Object> eval() { return Nil; }
 };
 
 class Send
@@ -50,6 +54,7 @@ public:
   Ref<Expression> message;
 
   virtual std::string to_string() const { return receiver->to_string() + "." + name + message->to_string(); }
+  virtual Ref<Object> eval() { return Nil; }
 };
 
 class Assign
@@ -60,6 +65,7 @@ public:
   Ref<Expression> value;
 
   virtual std::string to_string() const { return slot + "=" + value->to_string(); }
+  virtual Ref<Object> eval() { return Nil; }
 };
 
 class Literal
@@ -69,6 +75,7 @@ public:
   Literal(Ref<Object> value) : value(value) { }
 
   virtual std::string to_string() const { return "LITERAL"; }
+  virtual Ref<Object> eval() { return Nil; }
 
   Ref<Object> value;
 };

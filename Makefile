@@ -3,7 +3,8 @@ all: main
 OBJS = \
 	main.o \
 	parser/p.o \
-	parser/scanner.o
+	parser/scanner.o \
+	object/Nil.o
 
 CFLAGS += -ggdb
 
