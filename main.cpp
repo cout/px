@@ -10,7 +10,7 @@ int main()
   {
     Parser p;
 
-    PParseTrace(stdout, "|-| ");
+    // PParseTrace(stdout, "|-| ");
     p.parse_stream(std::cin);
 
     std::cout << p.root()->to_string() << std::endl;
