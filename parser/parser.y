@@ -53,6 +53,7 @@
 %right EXP NOT.
 %right LPAREN LBRACKET.
 %left RPAREN RBRACKET.
+%left DOT.
 
 %syntax_error {
 throw std::runtime_error("Syntax error");
@@ -113,8 +114,12 @@ expr(RESULT) ::= expr(LHS) SEMICOLON. { RESULT = LHS; }
 /* Attributes */
 expr(RESULT) ::= getattr(GETATTR). { RESULT = GETATTR; }
 getattr(RESULT) ::= expr(RECV) LBRACKET expr(KEY) RBRACKET. { RESULT = new Send("get", RECV, KEY); }
+
 expr(RESULT) ::= setattr(SETATTR). { RESULT = SETATTR; }
 setattr(RESULT) ::= expr(RECV) LBRACKET expr(KEY) RBRACKET ASSIGN expr(VALUE). { RESULT = new Send("set", RECV, new Send("colon", KEY, VALUE)); }
+
+expr(RESULT) ::= dotaccess(DOTACCESS). { RESULT = DOTACCESS; }
+dotaccess(RESULT) ::= expr(RECV) DOT IDENTIFIER(ID). { RESULT = new Send("get", RECV, new String(ID.sval)); }
 
 /* Pairs */
 expr(RESULT) ::= pair(PAIR). { RESULT = PAIR; }
