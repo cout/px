@@ -82,9 +82,9 @@ logic(RESULT) ::= NOT expr(EXPR).         { RESULT = new Send("not", EXPR, Nil.g
 
 /* Literals */
 expr(RESULT) ::= literal(LITERAL). { RESULT = LITERAL; }
-literal(RESULT) ::= INTEGER. { RESULT = new Integer(0); /* TODO */}
-literal(RESULT) ::= FLOAT. { RESULT = new Float(0.0); /* TODO */}
-literal(RESULT) ::= STRING. { RESULT = new String(""); /* TODO */}
+literal(RESULT) ::= INTEGER(VALUE). { RESULT = new Integer(VALUE.ival); }
+literal(RESULT) ::= FLOAT(VALUE). { RESULT = new Float(VALUE.dval); }
+literal(RESULT) ::= STRING(VALUE). { RESULT = new String(VALUE.sval); }
 
 /* Tuples */
 expr(RESULT) ::= tuple(TUPLE). { RESULT = TUPLE; }
@@ -127,5 +127,5 @@ pair(RESULT) ::= expr(LHS) COLON expr(RHS). { RESULT = new Send("colon", LHS, RH
 
 /* Assignment */
 expr(RESULT) ::= assignment(ASSGN). { RESULT = ASSGN; }
-assignment(RESULT) ::= IDENTIFIER ASSIGN expr. { RESULT = new Assign; }
+assignment(RESULT) ::= IDENTIFIER(SLOT) ASSIGN expr(VALUE). { RESULT = new Assign(new String(SLOT.sval), VALUE); }
 

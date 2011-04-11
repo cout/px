@@ -10,6 +10,8 @@ class Assign
   : public Expression
 {
 public:
+  Assign(Ref<Object> slot, Ref<Expression> value) : slot(slot), value(value) { }
+
   Ref<Object> slot;
   Ref<Expression> value;
 
