@@ -1,13 +1,14 @@
 %include {
-#include "p.hpp"
+#include "parser.hpp"
 #include "Token.hpp"
+
 #include "../object/Integer.hpp"
 #include "../object/Float.hpp"
 #include "../object/String.hpp"
+
 #include "../expr/Assign.hpp"
 #include "../expr/Block.hpp"
 #include "../expr/Expression.hpp"
-#include "../expr/Literal.hpp"
 #include "../expr/Null.hpp"
 #include "../expr/Send.hpp"
 
@@ -80,9 +81,9 @@ logic(RESULT) ::= NOT expr(EXPR).         { RESULT = new Send("not", EXPR, new N
 
 /* Literals */
 expr(RESULT) ::= literal(LITERAL). { RESULT = LITERAL; }
-literal(RESULT) ::= INTEGER. { RESULT = new Literal(new Integer(0)); /* TODO */}
-literal(RESULT) ::= FLOAT. { RESULT = new Literal(new Float(0.0)); /* TODO */}
-literal(RESULT) ::= STRING. { RESULT = new Literal(new String("")); /* TODO */}
+literal(RESULT) ::= INTEGER. { RESULT = new Integer(0); /* TODO */}
+literal(RESULT) ::= FLOAT. { RESULT = new Float(0.0); /* TODO */}
+literal(RESULT) ::= STRING. { RESULT = new String(""); /* TODO */}
 
 /* Tuples */
 expr(RESULT) ::= tuple(TUPLE). { RESULT = TUPLE; }

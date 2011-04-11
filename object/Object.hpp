@@ -4,13 +4,25 @@
 #include "Ref.hpp"
 
 #include <map>
+#include <stdexcept>
 
 class String;
 
 class Object
 {
 public:
-  std::map<Ref<Object>, Ref<Object> > slots;
+  virtual std::string to_string() const = 0;
+
+  typedef std::map<Ref<Object>, Ref<Object> > Slots;
+  Slots slots;
+
+  virtual Ref<Object> eval() { return Ref<Object>(this); }
+  virtual Ref<Object> receive(Ref<Object> /* msg */) { throw std::runtime_error("Object cannot receive messages"); }
+
+  virtual bool operator<(Object const & rhs) const
+  {
+    return this < &rhs;
+  }
 };
 
 #endif

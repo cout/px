@@ -1,15 +1,13 @@
 #ifndef FLOAT__HPP
 #define FLOAT__HPP
 
-#include "Object.hpp"
+#include "Object_T.hpp"
 
 class Float
-  : public Object
+  : public Object_T<double>
 {
 public:
-  Float(double d) : d(d) { }
-
-  double d;
+  Float(double value) : Object_T<double>(value) { }
 };
 
 #endif

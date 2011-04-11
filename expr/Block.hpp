@@ -12,7 +12,7 @@ public:
   Ref<Expression> next;
 
   virtual std::string to_string() const { return std::string("{") + next->to_string() + "}"; }
-  virtual Ref<Object> eval() { return Nil; }
+  virtual Ref<Object> eval() { return next->eval(); }
 };
 
 #endif

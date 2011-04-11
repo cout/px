@@ -6,6 +6,8 @@
 class NilType
   : public Object
 {
+public:
+  virtual std::string to_string() const { return "nil"; }
 };
 
 extern Ref<NilType> Nil;

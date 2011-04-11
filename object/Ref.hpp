@@ -18,6 +18,12 @@ public:
   Object_T const * operator->() const { return ptr; }
 
   Object_T * ptr;
+
+  template<typename T>
+  bool operator<(Ref<T> const & rhs) const
+  {
+    return *ptr < *rhs;
+  }
 };
 
 #endif

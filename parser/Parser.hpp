@@ -3,7 +3,8 @@
 
 #include "Token.hpp"
 #include "scanner.hpp"
-#include "ast.hpp"
+
+#include "../expr/Expression.hpp"
 
 #include <cstdlib>
 

@@ -2,16 +2,16 @@ all: main
 
 OBJS = \
 	main.o \
-	parser/p.o \
+	parser/parser.o \
 	parser/scanner.o \
 	object/Nil.o
 
 CFLAGS += -ggdb
 
-parser/p.cpp parser/p.hpp: parser/p.y
-	lemon parser/p.y
-	mv parser/p.c parser/p.cpp
-	mv parser/p.h parser/p.hpp
+parser/parser.cpp parser/parser.hpp: parser/parser.y
+	lemon parser/parser.y
+	mv parser/parser.c parser/parser.cpp
+	mv parser/parser.h parser/parser.hpp
 
 parser/scanner.cpp: parser/scanner.rl
 	ragel parser/scanner.rl -o parser/scanner.cpp

@@ -2,8 +2,8 @@
 *.o
 *~
 .*.swp
-p.cpp
-p.hpp
-p.out
-scanner.cpp
+parser/parser.cpp
+parser/parser.hpp
+parser/parser.out
+parser/scanner.cpp
 main

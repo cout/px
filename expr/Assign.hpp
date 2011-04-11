@@ -3,6 +3,8 @@
 
 #include "Expression.hpp"
 
+#include "../object/Nil.hpp"
+
 class Assign
   : public Expression
 {
