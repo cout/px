@@ -31,6 +31,8 @@ public:
     PParseFree(parser_, std::free);
   }
 
+  virtual std::string to_string() const { return "PARSER"; }
+
   void parse_stream(std::istream & in)
   {
     scanner_.scan_stream(in, *this);

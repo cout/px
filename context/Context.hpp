@@ -6,6 +6,7 @@
 class Context
   : public Object
 {
+  virtual std::string to_string() const { return "CONTEXT"; }
 };
 
 #endif
