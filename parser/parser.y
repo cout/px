@@ -84,7 +84,7 @@ logic(RESULT) ::= NOT expr(EXPR).         { RESULT = new Send("not", EXPR, Nil.g
 expr(RESULT) ::= literal(LITERAL). { RESULT = LITERAL; }
 literal(RESULT) ::= INTEGER(VALUE). { RESULT = new Integer(VALUE.ival); }
 literal(RESULT) ::= FLOAT(VALUE). { RESULT = new Float(VALUE.dval); }
-literal(RESULT) ::= STRING(VALUE). { RESULT = new String(VALUE.p, VALUE.pe); }
+literal(RESULT) ::= STRING(VALUE). { RESULT = new String(VALUE.ts, VALUE.te); }
 
 /* Tuples */
 expr(RESULT) ::= tuple(TUPLE). { RESULT = TUPLE; }
@@ -119,7 +119,7 @@ expr(RESULT) ::= setattr(SETATTR). { RESULT = SETATTR; }
 setattr(RESULT) ::= expr(RECV) LBRACKET expr(KEY) RBRACKET ASSIGN expr(VALUE). { RESULT = new Send("set", RECV, new Send("colon", KEY, VALUE)); }
 
 expr(RESULT) ::= dotaccess(DOTACCESS). { RESULT = DOTACCESS; }
-dotaccess(RESULT) ::= expr(RECV) DOT IDENTIFIER(ID). { RESULT = new Send("get", RECV, new String(ID.p, ID.pe)); }
+dotaccess(RESULT) ::= expr(RECV) DOT IDENTIFIER(ID). { RESULT = new Send("get", RECV, new String(ID.ts, ID.te)); }
 
 /* Pairs */
 expr(RESULT) ::= pair(PAIR). { RESULT = PAIR; }
@@ -127,5 +127,5 @@ pair(RESULT) ::= expr(LHS) COLON expr(RHS). { RESULT = new Send("colon", LHS, RH
 
 /* Assignment */
 expr(RESULT) ::= assignment(ASSGN). { RESULT = ASSGN; }
-assignment(RESULT) ::= IDENTIFIER(SLOT) ASSIGN expr(VALUE). { RESULT = new Assign(new String(SLOT.p, SLOT.pe), VALUE); }
+assignment(RESULT) ::= IDENTIFIER(SLOT) ASSIGN expr(VALUE). { RESULT = new Assign(new String(SLOT.ts, SLOT.te), VALUE); }
 

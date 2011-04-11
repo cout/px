@@ -5,8 +5,8 @@
 
 // TODO: use boost::any
 struct Token {
-  char const * p;
-  char const * pe;
+  char const * ts;
+  char const * te;
   int ival;
   double dval;
 };

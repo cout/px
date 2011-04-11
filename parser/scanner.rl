@@ -44,21 +44,21 @@
     "["        => { cb.have_token(PTOKEN_LBRACKET, token);  } ;
     "]"        => { cb.have_token(PTOKEN_RBRACKET, token);  } ;
     integer    => { 
-      token.ival = boost::lexical_cast<long>(std::string(p, pe));
+      token.ival = boost::lexical_cast<long>(std::string(ts, te));
       cb.have_token(PTOKEN_INTEGER, token);
     };
     float      => {
-      token.dval = boost::lexical_cast<double>(std::string(p, pe));
+      token.dval = boost::lexical_cast<double>(std::string(ts, te));
       cb.have_token(PTOKEN_FLOAT, token);
     };
     string     => {
-      token.p = p;
-      token.pe = pe;
+      token.ts = ts;
+      token.te = te;
       cb.have_token(PTOKEN_STRING, token);
     };
     identifier => {
-      token.p = p;
-      token.pe = pe;
+      token.ts = ts;
+      token.te = te;
       cb.have_token(PTOKEN_IDENTIFIER, token);
     };
   *|;

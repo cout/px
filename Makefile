@@ -8,7 +8,9 @@ OBJS = \
 
 CFLAGS += -ggdb
 
-parser/parser.cpp parser/parser.hpp: parser/parser.y
+parser/parser.cpp: parser/parser.hpp
+
+parser/parser.hpp: parser/parser.y
 	lemon parser/parser.y
 	mv parser/parser.c parser/parser.cpp
 	mv parser/parser.h parser/parser.hpp
