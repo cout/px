@@ -6,7 +6,7 @@
 #include <map>
 #include <stdexcept>
 
-class String;
+class Context;
 
 class Object
 {
@@ -16,8 +16,14 @@ public:
   typedef std::map<Ref<Object>, Ref<Object> > Slots;
   Slots slots;
 
-  virtual Ref<Object> eval() { return Ref<Object>(this); }
-  virtual Ref<Object> receive(Ref<Object> /* msg */) { throw std::runtime_error("Object cannot receive messages"); }
+  virtual Ref<Object> eval(Ref<Context> /* context */) { return Ref<Object>(this); }
+
+  virtual Ref<Object> receive(
+      Ref<Object> /* msg */,
+      Ref<Context> context)
+  {
+    throw std::runtime_error("Object cannot receive messages");
+  }
 
   virtual bool operator<(Object const & rhs) const
   {

@@ -4,16 +4,21 @@
 #include "Expression.hpp"
 
 #include "../object/Nil.hpp"
+#include "../context/Context.hpp"
 
 class Assign
   : public Expression
 {
 public:
-  std::string slot;
+  Ref<Object> slot;
   Ref<Expression> value;
 
-  virtual std::string to_string() const { return slot + "=" + value->to_string(); }
-  virtual Ref<Object> eval() { return Nil; }
+  virtual std::string to_string() const { return slot->to_string() + "=" + value->to_string(); }
+  virtual Ref<Object> eval(Ref<Context> context) {
+    Ref<Expression> result = value->eval(context);
+    context->slots[slot] = result;
+    return result;
+  }
 };
 
 #endif

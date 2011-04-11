@@ -39,9 +39,9 @@ public:
     return std::string(receiver->to_string()) + std::string(".") + name->to_string() + message->to_string();
   }
 
-  virtual Ref<Object> eval()
+  virtual Ref<Object> eval(Ref<Context> context)
   {
-    Ref<Object> recv = receiver->eval();
+    Ref<Object> recv = receiver->eval(context);
 
     Object::Slots::const_iterator end(recv->slots.end());
     Object::Slots::iterator it(recv->slots.find(name));
@@ -52,9 +52,9 @@ public:
       throw std::runtime_error(strm.str());
     }
 
-    Ref<Object> msg = message->eval();
+    Ref<Object> msg = message->eval(context);
 
-    return recv->receive(msg);
+    return recv->receive(msg, context);
   }
 };
 

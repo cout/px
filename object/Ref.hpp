@@ -13,9 +13,11 @@ public:
 
   Object_T & operator*() { return *ptr; }
   Object_T * operator->() { return ptr; }
+  Object_T * get() { return ptr; }
 
   Object_T const & operator*() const { return *ptr; }
   Object_T const * operator->() const { return ptr; }
+  Object_T * get() const { return ptr; }
 
   Object_T * ptr;
 

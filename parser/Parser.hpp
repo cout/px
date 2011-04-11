@@ -4,6 +4,7 @@
 #include "Token.hpp"
 #include "scanner.hpp"
 
+#include "../object/Object.hpp"
 #include "../expr/Expression.hpp"
 
 #include <cstdlib>
@@ -14,7 +15,8 @@ void PParse(void *yyp, int yymajor, Token yyminor, Expression * * root);
 void PParseTrace(FILE * stream, char * zPrefix);
 
 class Parser
-  : public PScanner_Callback
+  : public Object
+  , public PScanner_Callback
 {
 public:
   Parser()

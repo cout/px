@@ -5,11 +5,11 @@
 #include "../object/Integer.hpp"
 #include "../object/Float.hpp"
 #include "../object/String.hpp"
+#include "../object/Nil.hpp"
 
 #include "../expr/Assign.hpp"
 #include "../expr/Block.hpp"
 #include "../expr/Expression.hpp"
-#include "../expr/Null.hpp"
 #include "../expr/Send.hpp"
 
 #include <iostream>
@@ -77,7 +77,7 @@ logic(RESULT) ::= expr(LHS) GT expr(RHS). { RESULT = new Send("gt", LHS, RHS); }
 logic(RESULT) ::= expr(LHS) GE expr(RHS). { RESULT = new Send("ge", LHS, RHS); }
 logic(RESULT) ::= expr(LHS) LT expr(RHS). { RESULT = new Send("lt", LHS, RHS); }
 logic(RESULT) ::= expr(LHS) LE expr(RHS). { RESULT = new Send("le", LHS, RHS); }
-logic(RESULT) ::= NOT expr(EXPR).         { RESULT = new Send("not", EXPR, new Null); }
+logic(RESULT) ::= NOT expr(EXPR).         { RESULT = new Send("not", EXPR, Nil.get()); }
 
 /* Literals */
 expr(RESULT) ::= literal(LITERAL). { RESULT = LITERAL; }
@@ -87,7 +87,7 @@ literal(RESULT) ::= STRING. { RESULT = new String(""); /* TODO */}
 
 /* Tuples */
 expr(RESULT) ::= tuple(TUPLE). { RESULT = TUPLE; }
-tuple(RESULT) ::= LPAREN expr(EXPR) RPAREN. { RESULT = new Send("tuple", EXPR, new Null); }
+tuple(RESULT) ::= LPAREN expr(EXPR) RPAREN. { RESULT = new Send("tuple", EXPR, Nil.get()); }
 
 /* Comma operator */
 expr(RESULT) ::= list(LIST). { RESULT = LIST; }
