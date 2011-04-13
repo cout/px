@@ -4,6 +4,7 @@ OBJS = \
 	main.o \
 	parser/parser.o \
 	parser/scanner.o \
+	object/Object.o \
 	object/Nil.o
 
 CFLAGS += -ggdb

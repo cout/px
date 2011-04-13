@@ -1,7 +1,43 @@
-#ifndef OBJECT__HPP
-#define OBJECT__HPP
+#ifndef OBJECT_DEFN__HPP
+#define OBJECT_DEFN__HPP
 
-#include "Object_defn.hpp"
-#include "Object.ipp"
+#include "Ref.hpp"
+
+#include "../expr/Expression.hpp"
+
+#include <map>
+#include <stdexcept>
+
+class Context;
+
+class Object
+{
+public:
+  virtual std::string to_string() const = 0;
+
+  typedef std::map<Ref<Object>, Ref<Object> > Slots;
+  Slots slots;
+
+  virtual Ref<Object> eval(
+      Ref<Context> context);
+
+  virtual Ref<Object> receive(
+      Ref<Object> name,
+      Ref<Expression> msg,
+      Ref<Context> context);
+
+  virtual Ref<Object> getattr(
+      Ref<Object> attr);
+
+  virtual Ref<Object> setattr(
+      Ref<Object> attr,
+      Ref<Object> value);
+
+  virtual bool operator<(Object const & rhs) const
+  {
+    return this < &rhs;
+  }
+};
 
 #endif
+
