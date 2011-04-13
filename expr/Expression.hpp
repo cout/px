@@ -1,9 +1,11 @@
 #ifndef EXPRESSION__HPP
 #define EXPRESSION__HPP
 
-#include "../object/Object.hpp"
+class Object;
 
 typedef Object Expression;
+
+#include "../object/Object.hpp"
 
 #endif
 

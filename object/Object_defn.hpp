@@ -3,6 +3,8 @@
 
 #include "Ref.hpp"
 
+#include "../expr/Expression.hpp"
+
 #include <map>
 #include <stdexcept>
 
@@ -19,11 +21,9 @@ public:
   virtual Ref<Object> eval(Ref<Context> /* context */) { return Ref<Object>(this); }
 
   virtual Ref<Object> receive(
-      Ref<Object> /* msg */,
-      Ref<Context> /* context */)
-  {
-    throw std::runtime_error("Object cannot receive messages");
-  }
+      Ref<Object> name,
+      Ref<Expression> msg,
+      Ref<Context> context);
 
   virtual Ref<Object> getattr(Ref<Object> attr);
 

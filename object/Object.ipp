@@ -15,3 +15,17 @@ getattr(Ref<Object> attr) {
   }
 }
 
+inline
+Ref<Object>
+Object::
+receive(
+    Ref<Object> name,
+    Ref<Expression> msg,
+    Ref<Context> context)
+{
+  Ref<Object> received_msg = msg->eval(context);
+  Ref<Object> attr = getattr(name);
+  // TODO: what now?
+  return attr; // ???
+}
+

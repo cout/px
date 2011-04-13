@@ -47,9 +47,7 @@ public:
   {
     Ref<Object> recv = receiver->eval(context);
 
-    Ref<Object> msg = message->eval(context);
-
-    return recv->receive(msg, context);
+    return recv->receive(name, message, context);
   }
 };
 
