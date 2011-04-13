@@ -6,7 +6,9 @@ Integer::
 getattr(
     Ref<Object> name)
 {
-  Ref<Object> attr(getattr(name));
+  Ref<Object> attr(Object::getattr(name));
+  std::cout << "HERE" << std::endl;
+  std::cout << attr.get() << std::endl;
   if (attr->is_defined())
   {
     return attr;

@@ -28,7 +28,7 @@
 %type expr { Expression * }
 %default_type { Expression * }
 
-%destructor expr { delete $$; }
+/* %destructor expr { delete $$; } */
 
 %extra_argument { Expression * * root }
 

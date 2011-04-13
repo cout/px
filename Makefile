@@ -9,6 +9,7 @@ OBJS = \
 	object/Nil.o
 
 CFLAGS += -ggdb
+CXXFLAGS = -fno-inline
 
 parser/parser.cpp: parser/parser.hpp
 
@@ -21,7 +22,7 @@ parser/scanner.cpp: parser/scanner.rl
 	ragel parser/scanner.rl -o parser/scanner.cpp
 
 %.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CCFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
 
 main: $(OBJS)
 	$(CXX) $(LDFLAGS) $(OBJS) -o $@

@@ -18,6 +18,8 @@ public:
   typedef std::map<Ref<Object>, Ref<Object> > Slots;
   Slots slots;
 
+  virtual ~Object() { }
+
   virtual Ref<Object> eval(
       Ref<Context> context);
 
