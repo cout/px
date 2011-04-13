@@ -1,8 +1,8 @@
-#include "Integer.hpp"
+#include "Function.hpp"
 #include "String.hpp"
 
 Ref<Object>
-Integer::
+Function::
 getattr(
     Ref<Object> name)
 {
@@ -13,9 +13,9 @@ getattr(
   }
   else
   {
-    if (name == Ref<String>(new String("plus")))
+    if (name == Ref<String>(new String("call")))
     {
-      std::cout << "PLUS!" << std::endl;
+      std::cout << "CALL!" << std::endl;
       return attr; // TODO
     }
   }

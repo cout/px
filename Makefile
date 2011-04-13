@@ -6,7 +6,8 @@ OBJS = \
 	parser/scanner.o \
 	object/Object.o \
 	object/Integer.o \
-	object/Nil.o
+	object/Nil.o \
+	object/Function.o
 
 CFLAGS += -ggdb
 CXXFLAGS = -fno-inline
