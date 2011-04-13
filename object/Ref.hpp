@@ -26,6 +26,12 @@ public:
   {
     return *ptr < *rhs;
   }
+
+  template<typename T>
+  bool operator==(Ref<T> const & rhs) const
+  {
+    return *ptr == *rhs;
+  }
 };
 
 #endif

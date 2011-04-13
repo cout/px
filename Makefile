@@ -5,6 +5,7 @@ OBJS = \
 	parser/parser.o \
 	parser/scanner.o \
 	object/Object.o \
+	object/Integer.o \
 	object/Nil.o
 
 CFLAGS += -ggdb

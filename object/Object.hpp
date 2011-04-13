@@ -27,16 +27,23 @@ public:
       Ref<Context> context);
 
   virtual Ref<Object> getattr(
-      Ref<Object> attr);
+      Ref<Object> name);
 
   virtual Ref<Object> setattr(
-      Ref<Object> attr,
+      Ref<Object> name,
       Ref<Object> value);
 
   virtual bool operator<(Object const & rhs) const
   {
     return this < &rhs;
   }
+
+  virtual bool operator==(Object const & rhs) const
+  {
+    return this == &rhs;
+  }
+
+  virtual bool is_defined() const { return true; }
 };
 
 #endif

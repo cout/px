@@ -24,6 +24,8 @@ public:
     throw std::runtime_error(strm.str());
   }
 
+  virtual bool is_defined() const { return false; }
+
   Ref<Object> attr;
   Ref<Object> obj;
 };

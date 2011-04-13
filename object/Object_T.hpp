@@ -28,6 +28,19 @@ public:
       throw std::runtime_error("Cannot compare different types");
     }
   }
+
+  virtual bool operator==(Object const & rhs) const
+  {
+    Object_T<T> const * p_rhs = dynamic_cast<Object_T<T> const *>(&rhs);
+    if (p_rhs)
+    {
+      return value == p_rhs->value;
+    }
+    else
+    {
+      throw std::runtime_error("Cannot compare different types");
+    }
+  }
 };
 
 #endif
