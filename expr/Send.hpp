@@ -47,15 +47,6 @@ public:
   {
     Ref<Object> recv = receiver->eval(context);
 
-    Object::Slots::const_iterator end(recv->slots.end());
-    Object::Slots::iterator it(recv->slots.find(name));
-    if (it == end)
-    {
-      std::stringstream strm;
-      strm << "No such slot " << name->to_string() << " in " << recv->to_string();
-      throw std::runtime_error(strm.str());
-    }
-
     Ref<Object> msg = message->eval(context);
 
     return recv->receive(msg, context);
