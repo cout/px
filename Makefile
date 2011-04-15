@@ -7,7 +7,7 @@ OBJS = \
 	object/Object.o \
 	object/Integer.o \
 	object/Nil.o \
-	object/Function.o
+	function/Function.o
 
 CFLAGS += -ggdb
 CXXFLAGS = -fno-inline
