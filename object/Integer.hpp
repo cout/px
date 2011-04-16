@@ -13,6 +13,9 @@ public:
 
   virtual Ref<Object> getattr(
       Ref<Object> name);
+
+  virtual Ref<Object> plus(
+      Ref<Object> msg);
 };
 
 #endif
