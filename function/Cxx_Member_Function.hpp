@@ -21,7 +21,7 @@ public:
 
   virtual Ref<Object> receive(Ref<Object> msg, Ref<Context> context)
   {
-    return new String("RECEIVED");
+    return ((*instance).*func)(msg);
   }
 
   virtual std::string to_string() const { return "FUNCTION"; }
