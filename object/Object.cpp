@@ -38,13 +38,9 @@ setattr(
 Ref<Object>
 Object::
 receive(
-    Ref<Object> name,
     Ref<Expression> msg,
     Ref<Context> context)
 {
-  Ref<Object> attr = getattr(name);
-  Ref<Context> subcontext = new Context(context);
-  subcontext->setattr(new String("message"), msg);
-  return attr->eval(context);
+  throw std::runtime_error("Object cannot receive messages");
 }
 

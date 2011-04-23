@@ -24,7 +24,6 @@ public:
       Ref<Context> context);
 
   virtual Ref<Object> receive(
-      Ref<Object> name,
       Ref<Expression> msg,
       Ref<Context> context);
 

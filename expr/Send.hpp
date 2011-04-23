@@ -12,26 +12,26 @@ class Send
 {
 public:
   Send(
-      std::string const & name,
+      std::string const & slot,
       Expression * receiver,
       Expression * message)
-    : name(new String(name))
+    : slot(new String(slot))
     , receiver(receiver)
     , message(message)
   {
   }
 
   Send(
-      Ref<Object> name,
+      Ref<Object> slot,
       Expression * receiver,
       Expression * message)
-    : name(name)
+    : slot(slot)
     , receiver(receiver)
     , message(message)
   {
   }
 
-  Ref<Object> name;
+  Ref<Object> slot;
   Ref<Expression> receiver;
   Ref<Expression> message;
 
@@ -39,15 +39,15 @@ public:
     return std::string(
         receiver->to_string() +
         std::string(".") +
-        name->to_string() +
+        slot->to_string() +
         "(" + message->to_string() + ")");
   }
 
   virtual Ref<Object> eval(Ref<Context> context)
   {
     Ref<Object> recv = receiver->eval(context);
-
-    return recv->receive(name, message, context);
+    Ref<Object> attr = recv->getattr(slot);
+    return attr->receive(message, context);
   }
 };
 
