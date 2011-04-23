@@ -17,7 +17,6 @@ getattr(
   {
     if (name == Ref<String>(new String("plus")))
     {
-      std::cout << "PLUS!" << std::endl;
       return new Cxx_Member_Function<Integer>(this, &Integer::plus);
     }
   }
