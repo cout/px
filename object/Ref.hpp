@@ -11,6 +11,9 @@ public:
   template<typename T>
   Ref(Ref<T> ref) : ptr(ref.ptr) { }
 
+  template<typename T>
+  Object_T & operator=(Ref<T> ref) { ptr = ref.ptr; }
+
   Object_T & operator*() { return *ptr; }
   Object_T * operator->() { return ptr; }
   Object_T * get() { return ptr; }

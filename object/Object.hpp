@@ -18,6 +18,14 @@ public:
   typedef std::map<Ref<Object>, Ref<Object> > Slots;
   Slots slots;
 
+  Ref<Object> prototype;
+
+  Object();
+
+  Object(Ref<Object> prototype);
+
+  static Ref<Object> make_prototype();
+
   virtual ~Object() { }
 
   virtual Ref<Object> eval(
@@ -30,8 +38,15 @@ public:
   virtual Ref<Object> getattr(
       Ref<Object> name);
 
-  virtual Ref<Object> setattr(
+  virtual Ref<Object> getattr(
+      char const * name);
+
+  virtual void setattr(
       Ref<Object> name,
+      Ref<Object> value);
+
+  virtual void setattr(
+      char const * name,
       Ref<Object> value);
 
   virtual bool operator<(Object const & rhs) const
