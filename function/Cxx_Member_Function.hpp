@@ -19,7 +19,7 @@ public:
   {
   }
 
-  virtual Ref<Object> receive(Ref<Object> msg, Ref<Context> context)
+  virtual Ref<Object> call(Ref<Object> msg, Ref<Context> context)
   {
     return ((*instance).*func)(msg);
   }

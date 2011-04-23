@@ -28,6 +28,6 @@ Integer::
 plus(
     Ref<Object> msg)
 {
-  return Nil;
+  return new String("PLUS");
 }
 
