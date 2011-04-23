@@ -20,7 +20,17 @@ public:
   virtual Ref<Object> eval(Ref<Context> /* context */)
   {
     std::stringstream strm;
-    strm << "No such slot " << attr->to_string() << " in " << obj->to_string();
+    strm << "No such slot `" << attr->to_string() << "'"
+         << " in `" << obj->to_string() << "'";
+    throw std::runtime_error(strm.str());
+  }
+
+  virtual Ref<Object> receive(Ref<Expression> msg, Ref<Context> /* context */)
+  {
+    std::stringstream strm;
+    strm << "No such slot `" << attr->to_string() << "'"
+         << " in `" << obj->to_string() << "'"
+         << " to receive `" << msg->to_string() << "'";
     throw std::runtime_error(strm.str());
   }
 
