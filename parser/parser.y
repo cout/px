@@ -110,6 +110,8 @@ expr(RESULT) ::= expr(LHS) NEWLINE expr(RHS). { RESULT = new Send("newline", LHS
 expr(RESULT) ::= expr(LHS) SEMICOLON expr(RHS). { RESULT = new Send("semicolon", LHS, RHS); }
 expr(RESULT) ::= expr(LHS) NEWLINE. { RESULT = LHS; }
 expr(RESULT) ::= expr(LHS) SEMICOLON. { RESULT = LHS; }
+expr(RESULT) ::= NEWLINE expr(RHS). { RESULT = RHS; }
+expr(RESULT) ::= SEMICOLON expr(RHS). { RESULT = RHS; }
 
 /* Attributes */
 expr(RESULT) ::= getattr(GETATTR). { RESULT = GETATTR; }
