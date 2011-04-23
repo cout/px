@@ -41,6 +41,9 @@ receive(
     Ref<Expression> msg,
     Ref<Context> context)
 {
-  throw std::runtime_error("Object cannot receive messages");
+  std::stringstream strm;
+  strm << "Object `" << this->to_string() << "'"
+       << " cannot receive message `" << msg->to_string() << "'";
+  throw std::runtime_error(strm.str());
 }
 
