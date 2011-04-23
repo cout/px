@@ -28,6 +28,10 @@ Integer::
 plus(
     Ref<Object> msg)
 {
-  return new String("PLUS");
+  Integer * i = dynamic_cast<Integer *>(msg.get());
+  if (i)
+  {
+    return new Integer(this->value + i->value);
+  }
 }
 
