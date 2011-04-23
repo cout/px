@@ -12,8 +12,9 @@
 
   integer = [0-9];
   float = [0-9]+|[0-9]*.[0-9]+;
-  string = "\""[^"]*"\"";
-  identifier = ([A-Z][a-z])([A-Z][a-z][0-9])*;
+  quote = "\"";
+  string = quote [^"]* quote;
+  identifier = ([A-Z]|[a-z])([A-Z]|[a-z]|[0-9])*;
 
   main := |*
     [ \t]      => { } ;
@@ -88,10 +89,14 @@ buffer_space_remaining(size_t bufsize, size_t have)
 
 void
 PScanner::
-check_for_error()
+check_for_error(char const * p, char const * pe)
 {
   if ( cs < %%{ write first_final; }%% ) {
-    throw std::runtime_error("Error occurred during scanning");
+    std::stringstream strm;
+    strm << "Error during scanning:" << std::endl
+         << std::string(p, pe) << std::endl;
+         // << std::string(ts, te);
+    throw std::runtime_error(strm.str());
   }
 }
 
@@ -135,7 +140,7 @@ scan_stream(std::istream & in, PScanner_Callback & cb)
 
     %% write exec;
 
-    check_for_error();
+    check_for_error(p, pe);
     check_for_fragments(p, pe);
   }
 

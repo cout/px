@@ -24,7 +24,7 @@ public:
 
 private:
   size_t buffer_space_remaining(size_t bufsize, size_t have);
-  void check_for_error();
+  void check_for_error(char const * p, char const * pe);
   void check_for_fragments(char const * p, char const * pe);
 
 private:
