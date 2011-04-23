@@ -45,8 +45,11 @@ public:
 
   virtual Ref<Object> eval(Ref<Context> context)
   {
+    std::cout << "SLOT: " << slot->to_string() << std::endl;
     Ref<Object> recv = receiver->eval(context);
+    std::cout << "RECV: " << recv->to_string() << std::endl;
     Ref<Object> attr = recv->getattr(slot);
+    std::cout << "ATTR: " << attr->to_string() << std::endl;
     return attr->receive(message, context);
   }
 };

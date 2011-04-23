@@ -4,6 +4,8 @@
 #include "../context/Context.hpp"
 #include "../function/Cxx_Member_Function.hpp"
 
+#include <iostream>
+
 class Object_Prototype
   : public Object
 {
@@ -17,7 +19,42 @@ public:
   Object_Prototype()
     : Object(Ref<Object>(0))
   {
+  }
+
+  void bootstrap()
+  {
     setattr("newline", memfun(&Object_Prototype::newline));
+  }
+
+  class Bootstrapper
+  {
+  public:
+    Bootstrapper(Object_Prototype & p)
+    {
+      p.bootstrap();
+    }
+  };
+
+  virtual Ref<Object>
+  getattr(
+      Ref<Object> attr)
+  {
+    // Special case (since the chain has to end *somewhere*
+    std::cout << "Object prototype getattr " << attr->to_string() << std::endl;
+
+    Bootstrapper bootstrapper(*this);
+
+    Slots::iterator it(slots.find(attr));
+    if (it == slots.end())
+    {
+      std::cout << "Not found!" << std::endl;
+      return new Undefined(attr, this);
+    }
+    else
+    {
+      std::cout << "Found: " << it->second->to_string() << std::endl;
+      return it->second;
+    }
   }
 
   Ref<Object> newline(Ref<Object> msg) {
@@ -29,11 +66,11 @@ public:
   }
 };
 
-Ref<Object>
+Ref<Object_Prototype>
 Object::
 make_prototype()
 {
-  static Ref<Object> object_prototype;
+  static Ref<Object_Prototype> object_prototype;
 
   if (not object_prototype.get())
   {
@@ -68,12 +105,19 @@ Object::
 getattr(
     Ref<Object> attr)
 {
+  std::cout << "Object getattr " << attr->to_string() << std::endl;
+
   Slots::iterator it(slots.find(attr));
   if (it == slots.end())
   {
-    if (not prototype->getattr(attr)->is_defined())
+    Ref<Object> obj(prototype->getattr(attr));
+    if (not obj->is_defined())
     {
       return new Undefined(attr, this);
+    }
+    else
+    {
+      return obj;
     }
   }
   else

@@ -10,6 +10,8 @@
 
 class Context;
 
+class Object_Prototype;
+
 class Object
 {
 public:
@@ -24,7 +26,7 @@ public:
 
   Object(Ref<Object> prototype);
 
-  static Ref<Object> make_prototype();
+  static Ref<Object_Prototype> make_prototype();
 
   virtual ~Object() { }
 
