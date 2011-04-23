@@ -125,7 +125,9 @@ dotaccess(RESULT) ::= expr(RECV) DOT IDENTIFIER(ID). { RESULT = new Send("get", 
 expr(RESULT) ::= pair(PAIR). { RESULT = PAIR; }
 pair(RESULT) ::= expr(LHS) COLON expr(RHS). { RESULT = new Send("colon", LHS, RHS); }
 
-/* Assignment */
-expr(RESULT) ::= assignment(ASSGN). { RESULT = ASSGN; }
-assignment(RESULT) ::= IDENTIFIER(SLOT) ASSIGN expr(VALUE). { RESULT = new Assign(new String(SLOT.ts, SLOT.te), VALUE); }
+/* Locals */
+expr(RESULT) ::= IDENTIFIER(LOCAL).
+                 { RESULT = new String(LOCAL.ts, LOCAL.te); }
+expr(RESULT) ::= IDENTIFIER(LOCAL) ASSIGN expr(VALUE).
+                 { RESULT = new Assign(new String(LOCAL.ts, LOCAL.te), VALUE); }
 
