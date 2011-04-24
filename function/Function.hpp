@@ -7,7 +7,9 @@ class Function
   : public Object
 {
 public:
-  Function() { }
+  Function();
+
+  static Ref<Object> make_prototype();
 
   virtual Ref<Object> receive(Ref<Object> recv, Ref<Object> msg, Ref<Context> context);
 
