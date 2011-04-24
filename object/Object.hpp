@@ -7,10 +7,9 @@
 
 #include <map>
 #include <stdexcept>
+#include <iosfwd>
 
 class Context;
-
-class Object_Prototype;
 
 class Object
 {
@@ -26,7 +25,7 @@ public:
 
   Object(Ref<Object> prototype);
 
-  static Ref<Object_Prototype> make_prototype();
+  static Ref<Object> make_prototype();
 
   virtual ~Object() { }
 
@@ -63,6 +62,10 @@ public:
 
   virtual bool is_defined() const { return true; }
 };
+
+std::ostream & operator<<(Object const & obj, std::ostream & strm);
+
+std::ostream & operator<<(Ref<Object> const & obj, std::ostream & strm);
 
 #endif
 

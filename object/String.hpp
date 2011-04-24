@@ -9,9 +9,19 @@ class String
   : public Object_T<std::string>
 {
 public:
-  String(std::string const & value) : Object_T<std::string>(value) { }
+  typedef Object_T<std::string> Super;
 
-  String(char const * p, char const * pe) : Object_T<std::string>(std::string(p, pe)) { }
+  static Ref<Object> make_prototype();
+
+  String(std::string const & value)
+    : Super(value, make_prototype())
+  {
+  }
+
+  String(char const * p, char const * pe)
+    : Super(std::string(p, pe), make_prototype())
+  {
+  }
 };
 
 #endif

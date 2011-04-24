@@ -7,6 +7,7 @@ OBJS = \
 	object/Object.o \
 	object/Integer.o \
 	object/Nil.o \
+	object/String.o \
 	function/Function.o
 
 CFLAGS += -ggdb

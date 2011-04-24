@@ -66,7 +66,7 @@ public:
   }
 };
 
-Ref<Object_Prototype>
+Ref<Object>
 Object::
 make_prototype()
 {
@@ -163,5 +163,19 @@ receive(
   strm << "Object `" << this->to_string() << "'"
        << " cannot receive message `" << msg->to_string() << "'";
   throw std::runtime_error(strm.str());
+}
+
+std::ostream & operator<<(Object const & obj, std::ostream & strm)
+{
+  strm << obj.to_string();
+  return strm;
+}
+
+std::ostream & operator<<(Ref<Object> const & obj, std::ostream & strm)
+{
+  // TODO: Could not get the following code to compile:
+  //   strm << *obj;
+  operator<<(*obj, strm);
+  return strm;
 }
 

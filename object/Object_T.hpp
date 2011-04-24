@@ -10,7 +10,17 @@ class Object_T
   : public Object
 {
 public:
-  Object_T(T value) : value(value) { }
+  Object_T(T value)
+    : Object()
+    , value(value)
+  {
+  }
+
+  Object_T(T value, Ref<Object> prototype)
+    : Object(prototype)
+    , value(value)
+  {
+  }
 
   T value;
 

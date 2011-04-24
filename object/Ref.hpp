@@ -1,6 +1,8 @@
 #ifndef REF__HPP
 #define REF__HPP
 
+#include <iosfwd>
+
 template<typename Object_T>
 class Ref
 {
@@ -14,12 +16,8 @@ public:
   template<typename T>
   Object_T & operator=(Ref<T> ref) { ptr = ref.ptr; }
 
-  Object_T & operator*() { return *ptr; }
-  Object_T * operator->() { return ptr; }
-  Object_T * get() { return ptr; }
-
-  Object_T const & operator*() const { return *ptr; }
-  Object_T const * operator->() const { return ptr; }
+  Object_T & operator*() const { return *ptr; }
+  Object_T * operator->() const { return ptr; }
   Object_T * get() const { return ptr; }
 
   Object_T * ptr;
