@@ -13,8 +13,8 @@ class Send
 public:
   Send(
       std::string const & slot,
-      Expression * receiver,
-      Expression * message)
+      Ref<Expression> receiver,
+      Ref<Expression> message)
     : slot(new String(slot))
     , receiver(receiver)
     , message(message)
@@ -23,8 +23,8 @@ public:
 
   Send(
       Ref<Object> slot,
-      Expression * receiver,
-      Expression * message)
+      Ref<Expression> receiver,
+      Ref<Expression> message)
     : slot(slot)
     , receiver(receiver)
     , message(message)

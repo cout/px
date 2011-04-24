@@ -7,7 +7,6 @@
 #include "../object/String.hpp"
 #include "../object/Nil.hpp"
 
-#include "../expr/Assign.hpp"
 #include "../expr/Block.hpp"
 #include "../expr/Expression.hpp"
 #include "../expr/Send.hpp"
@@ -115,21 +114,38 @@ expr(RESULT) ::= SEMICOLON expr(RHS). { RESULT = RHS; }
 
 /* Attributes */
 expr(RESULT) ::= getattr(GETATTR). { RESULT = GETATTR; }
-getattr(RESULT) ::= expr(RECV) LBRACKET expr(KEY) RBRACKET. { RESULT = new Send("get", RECV, KEY); }
+getattr(RESULT) ::= expr(RECV) LBRACKET expr(KEY) RBRACKET.
+{
+  RESULT = new Send("get", RECV, KEY);
+}
 
 expr(RESULT) ::= setattr(SETATTR). { RESULT = SETATTR; }
-setattr(RESULT) ::= expr(RECV) LBRACKET expr(KEY) RBRACKET ASSIGN expr(VALUE). { RESULT = new Send("set", RECV, new Send("colon", KEY, VALUE)); }
+setattr(RESULT) ::= expr(RECV) LBRACKET expr(KEY) RBRACKET ASSIGN expr(VALUE).
+{
+  Ref<Object> pair = new Send("colon", KEY, VALUE);
+  RESULT = new Send("set", RECV, pair);
+}
 
 expr(RESULT) ::= dotaccess(DOTACCESS). { RESULT = DOTACCESS; }
-dotaccess(RESULT) ::= expr(RECV) DOT IDENTIFIER(ID). { RESULT = new Send("get", RECV, new String(ID.ts, ID.te)); }
+dotaccess(RESULT) ::= expr(RECV) DOT IDENTIFIER(ID). {
+  Ref<String> id = new String(ID.ts, ID.te);
+  RESULT = new Send("get", RECV, id);
+}
 
 /* Pairs */
 expr(RESULT) ::= pair(PAIR). { RESULT = PAIR; }
 pair(RESULT) ::= expr(LHS) COLON expr(RHS). { RESULT = new Send("colon", LHS, RHS); }
 
 /* Locals */
-expr(RESULT) ::= IDENTIFIER(LOCAL).
-                 { RESULT = new String(LOCAL.ts, LOCAL.te); }
-expr(RESULT) ::= IDENTIFIER(LOCAL) ASSIGN expr(VALUE).
-                 { RESULT = new Assign(new String(LOCAL.ts, LOCAL.te), VALUE); }
+expr(RESULT) ::= IDENTIFIER(ID).
+{
+  Ref<String> id = new String(ID.ts, ID.te);
+  RESULT = new Send("local_get", id, Nil);
+}
+expr(RESULT) ::= IDENTIFIER(ID) ASSIGN expr(VALUE).
+{
+  Ref<String> id = new String(ID.ts, ID.te);
+  RESULT = new Send("local_set", id, VALUE);
+}
 
+/* vim: set ft=cpp: */
