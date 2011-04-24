@@ -85,9 +85,9 @@ literal(RESULT) ::= INTEGER(VALUE). { RESULT = new Integer(VALUE.ival); }
 literal(RESULT) ::= FLOAT(VALUE). { RESULT = new Float(VALUE.dval); }
 literal(RESULT) ::= STRING(VALUE). { RESULT = new String(VALUE.ts, VALUE.te); }
 
-/* Tuples */
-expr(RESULT) ::= tuple(TUPLE). { RESULT = TUPLE; }
-tuple(RESULT) ::= LPAREN expr(EXPR) RPAREN. { RESULT = new Send("tuple", EXPR, Nil.get()); }
+/* Groups */
+expr(RESULT) ::= group(TUPLE). { RESULT = TUPLE; }
+group(RESULT) ::= LPAREN expr(EXPR) RPAREN. { RESULT = new Send("group", EXPR, Nil.get()); }
 
 /* Comma operator */
 expr(RESULT) ::= list(LIST). { RESULT = LIST; }
@@ -96,9 +96,9 @@ list(RESULT) ::= expr(LHS) COMMA expr(RHS). { RESULT = new Send("comma", LHS, RH
 /* Function calls */
 /* TODO: keyword arguments */
 expr(RESULT) ::= funcall(FUNCALL). { RESULT = FUNCALL; }
-funcall(RESULT) ::= expr(RECV) tuple(ARGS). { RESULT = new Send("call", RECV, ARGS); }
-funcall(RESULT) ::= expr(RECV) tuple(ARGS) block(BLOCK). {
-  Expression * args = new Send("comma", ARGS, BLOCK);
+funcall(RESULT) ::= expr(RECV) group(ARGS). { RESULT = new Send("call", RECV, ARGS); }
+funcall(RESULT) ::= expr(RECV) group(ARGS) block(BLOCK). {
+  Expression * args = new Send("withblock", ARGS, BLOCK);
   RESULT = new Send("call", RECV, args);
 }
 
