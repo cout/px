@@ -11,9 +11,6 @@ class Integer
 public:
   Integer(long value) : Object_T<long>(value) { }
 
-  virtual Ref<Object> getattr(
-      Ref<Object> name);
-
   virtual Ref<Object> plus(
       Ref<Object> msg);
 };

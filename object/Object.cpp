@@ -13,7 +13,7 @@ public:
   template<typename T>
   Ref<Function> memfun(T const & fun)
   {
-    return new Cxx_Member_Function<Object_Prototype>(this, fun);
+    return new Cxx_Member_Function<Object>(fun);
   }
 
   Object_Prototype()
@@ -23,10 +23,10 @@ public:
 
   void bootstrap()
   {
-    setattr("newline", memfun(&Object_Prototype::newline));
-    setattr("semicolon", memfun(&Object_Prototype::semicolon));
-    setattr("colon", memfun(&Object_Prototype::colon));
-    setattr("comma", memfun(&Object_Prototype::comma));
+    setattr("newline", memfun(&Object::newline));
+    setattr("semicolon", memfun(&Object::semicolon));
+    setattr("colon", memfun(&Object::colon));
+    setattr("comma", memfun(&Object::comma));
   }
 
   class Bootstrapper
@@ -58,22 +58,6 @@ public:
       std::cout << "Found: " << it->second->to_string() << std::endl;
       return it->second;
     }
-  }
-
-  Ref<Object> newline(Ref<Object> msg) {
-    return msg;
-  }
-
-  Ref<Object> semicolon(Ref<Object> msg) {
-    return msg;
-  }
-
-  Ref<Object> comma(Ref<Object> msg) {
-    return msg;
-  }
-
-  Ref<Object> colon(Ref<Object> msg) {
-    return msg;
   }
 
   virtual std::string to_string() const {
@@ -199,5 +183,33 @@ std::ostream & operator<<(Ref<Object> const & obj, std::ostream & strm)
   //   strm << *obj;
   operator<<(*obj, strm);
   return strm;
+}
+
+Ref<Object>
+Object::
+newline(Ref<Object> msg)
+{
+  return msg;
+}
+
+Ref<Object>
+Object::
+semicolon(Ref<Object> msg)
+{
+  return msg;
+}
+
+Ref<Object>
+Object::
+comma(Ref<Object> msg)
+{
+  return msg;
+}
+
+Ref<Object>
+Object::
+colon(Ref<Object> msg)
+{
+  return msg;
 }
 

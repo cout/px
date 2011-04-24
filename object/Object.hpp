@@ -51,6 +51,11 @@ public:
       char const * name,
       Ref<Object> value);
 
+  virtual Ref<Object> newline(Ref<Object> msg);
+  virtual Ref<Object> semicolon(Ref<Object> msg);
+  virtual Ref<Object> comma(Ref<Object> msg);
+  virtual Ref<Object> colon(Ref<Object> msg);
+
   virtual bool operator<(Object const & rhs) const
   {
     return this < &rhs;

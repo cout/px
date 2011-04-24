@@ -4,6 +4,7 @@
 #include "Function.hpp"
 
 #include <typeinfo>
+#include <stdexcept>
 
 template<typename T>
 class Cxx_Member_Function
@@ -12,18 +13,24 @@ class Cxx_Member_Function
 public:
   typedef Ref<Object> (T::*Func)(Ref<Object>);
 
-  Ref<T> instance;
   Func func;
 
-  Cxx_Member_Function(Ref<T> instance, Func func)
-    : instance(instance)
-    , func(func)
+  Cxx_Member_Function(Func func)
+    : func(func)
   {
   }
 
   virtual Ref<Object> call(Ref<Object> recv, Ref<Object> msg, Ref<Context> context)
   {
-    return ((*instance).*func)(msg);
+    T * obj = dynamic_cast<T *>(recv.get());
+    if (obj)
+    {
+      return ((*obj).*func)(msg);
+    }
+    else
+    {
+      throw std::runtime_error("Attempted to call function on wrong receiver type");
+    }
   }
 
   virtual std::string to_string() const { return typeid(Func).name(); }
