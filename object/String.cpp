@@ -15,11 +15,11 @@ public:
   }
 
   virtual Ref<Object> receive(
-    Ref<Expression> msg,
+    Ref<Object> recv,
+    Ref<Expression> /* msg */,
     Ref<Context> context)
   {
-    Ref<Object> name = msg->eval(context);
-    return context->getattr(name);
+    return context->getattr(recv);
   }
 };
 
@@ -33,12 +33,13 @@ public:
   }
 
   virtual Ref<Object> receive(
+    Ref<Object> recv,
     Ref<Expression> msg,
     Ref<Context> context)
   {
-    Ref<Object> pair = msg->eval(context);
-    std::cout << pair->to_string() << std::endl;
-    return Nil;
+    Ref<Object> value = msg->eval(context);
+    context->setattr(recv, value);
+    return value;
   }
 };
 

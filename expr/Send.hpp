@@ -50,7 +50,7 @@ public:
     std::cout << "RECV: " << recv->to_string() << std::endl;
     Ref<Object> attr = recv->getattr(slot);
     std::cout << "ATTR: " << attr->to_string() << std::endl;
-    return attr->receive(message, context);
+    return attr->receive(recv, message, context);
   }
 };
 

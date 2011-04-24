@@ -156,12 +156,19 @@ setattr(
 Ref<Object>
 Object::
 receive(
+    Ref<Object> recv,
     Ref<Expression> msg,
     Ref<Context> context)
 {
   std::stringstream strm;
   strm << "Object `" << this->to_string() << "'"
        << " cannot receive message `" << msg->to_string() << "'";
+
+  if (recv.get() != this)
+  {
+    strm << " on behalf of " << recv->to_string();
+  }
+
   throw std::runtime_error(strm.str());
 }
 

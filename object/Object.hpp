@@ -33,6 +33,7 @@ public:
       Ref<Context> context);
 
   virtual Ref<Object> receive(
+      Ref<Object> recv,
       Ref<Expression> msg,
       Ref<Context> context);
 
