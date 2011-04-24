@@ -37,6 +37,7 @@ public:
     Ref<Expression> msg,
     Ref<Context> context)
   {
+    std::cout << "local set " << recv->to_string() << " " << msg->to_string() << std::endl;
     Ref<Object> value = msg->eval(context);
     context->setattr(recv, value);
     return value;
@@ -78,7 +79,7 @@ public:
   getattr(
       Ref<Object> attr)
   {
-    std::cout << "String prototype getattr " << attr->to_string();
+    std::cout << "String prototype getattr " << attr->to_string() << std::endl;
     Bootstrapper bootstrapper(*this);
     return Super::getattr(attr);
   }

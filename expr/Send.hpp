@@ -45,6 +45,7 @@ public:
 
   virtual Ref<Object> eval(Ref<Context> context)
   {
+    std::cout << "TRACE: " << this->to_string() << std::endl;
     std::cout << "SLOT: " << slot->to_string() << std::endl;
     Ref<Object> recv = receiver->eval(context);
     std::cout << "RECV: " << recv->to_string() << std::endl;
