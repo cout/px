@@ -9,9 +9,9 @@ class Function
 public:
   Function() { }
 
-  virtual Ref<Object> receive(Ref<Object> msg, Ref<Context> context);
+  virtual Ref<Object> receive(Ref<Object> recv, Ref<Object> msg, Ref<Context> context);
 
-  virtual Ref<Object> call(Ref<Object> msg, Ref<Context> context) = 0;
+  virtual Ref<Object> call(Ref<Object> recv, Ref<Object> msg, Ref<Context> context) = 0;
 };
 
 #endif

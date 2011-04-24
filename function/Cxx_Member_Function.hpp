@@ -3,6 +3,8 @@
 
 #include "Function.hpp"
 
+#include <typeinfo>
+
 template<typename T>
 class Cxx_Member_Function
   : public Function
@@ -19,12 +21,12 @@ public:
   {
   }
 
-  virtual Ref<Object> call(Ref<Object> msg, Ref<Context> context)
+  virtual Ref<Object> call(Ref<Object> recv, Ref<Object> msg, Ref<Context> context)
   {
     return ((*instance).*func)(msg);
   }
 
-  virtual std::string to_string() const { return "FUNCTION"; }
+  virtual std::string to_string() const { return typeid(Func).name(); }
 };
 
 #endif

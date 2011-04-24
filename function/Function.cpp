@@ -2,8 +2,8 @@
 
 Ref<Object>
 Function::
-receive(Ref<Object> msg, Ref<Context> context)
+receive(Ref<Object> recv, Ref<Object> msg, Ref<Context> context)
 {
-  return this->call(msg->eval(context), context);
+  return this->call(recv, msg->eval(context), context);
 }
 
