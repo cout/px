@@ -24,6 +24,9 @@ public:
   void bootstrap()
   {
     setattr("newline", memfun(&Object_Prototype::newline));
+    setattr("semicolon", memfun(&Object_Prototype::semicolon));
+    setattr("colon", memfun(&Object_Prototype::colon));
+    setattr("comma", memfun(&Object_Prototype::comma));
   }
 
   class Bootstrapper
@@ -58,6 +61,18 @@ public:
   }
 
   Ref<Object> newline(Ref<Object> msg) {
+    return msg;
+  }
+
+  Ref<Object> semicolon(Ref<Object> msg) {
+    return msg;
+  }
+
+  Ref<Object> comma(Ref<Object> msg) {
+    return msg;
+  }
+
+  Ref<Object> colon(Ref<Object> msg) {
     return msg;
   }
 
