@@ -30,6 +30,7 @@ MAIN_OBJS = \
 main: $(MAIN_OBJS)
 	$(CXX) $(LDFLAGS) $^ -o $@
 
+OBJS += $(MAIN_OBJS)
 GENERATED_FILES += $(MAIN_OBJS)
 
 # --- Build parser using lemon ---
