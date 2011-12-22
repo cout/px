@@ -6,6 +6,11 @@ CPPFLAGS +=
 CFLAGS += -ggdb
 CXXFLAGS = -fno-inline
 
+# --- Build objects from C++ source ---
+
+%.o: %.cpp
+	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
+
 # --- Build main from objects ---
 
 MAIN_OBJS = \
