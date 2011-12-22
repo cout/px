@@ -1,6 +1,19 @@
 all: main
 
-OBJS = \
+# --- Global build options ---
+
+CPPFLAGS +=
+CFLAGS += -ggdb
+CXXFLAGS = -fno-inline
+
+# --- Build objects from C++ source ---
+
+%.o: %.cpp
+	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
+
+# --- Build main from objects ---
+
+MAIN_OBJS = \
 	main.o \
 	parser/parser.o \
 	parser/scanner.o \
@@ -10,8 +23,12 @@ OBJS = \
 	object/String.o \
 	function/Function.o
 
-CFLAGS += -ggdb
-CXXFLAGS = -fno-inline
+main: $(MAIN_OBJS)
+	$(CXX) $(LDFLAGS) $^ -o $@
+
+GENERATED_FILES += $(MAIN_OBJS)
+
+# --- Build parser using lemon ---
 
 parser/parser.cpp: parser/parser.hpp
 
@@ -25,20 +42,20 @@ GENERATED_FILES += parser/parser.cpp
 GENERATED_FILES += parser/parser.h
 GENERATED_FILES += parser/parser.c
 
+# --- Build scanner using ragel ---
+
 parser/scanner.cpp: parser/scanner.rl
 	ragel parser/scanner.rl -o parser/scanner.cpp
 
 GENERATED_FILES += parser/scanner.cpp
 
-%.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
-
-main: $(OBJS)
-	$(CXX) $(LDFLAGS) $^ -o $@
+# --- Cleanup rule ---
 
 .PHONY: clean
 clean:
-	$(RM) $(OBJS) $(GENERATED_FILES)
+	$(RM) $(GENERATED_FILES)
+
+# --- Dependencies ---
 
 CFLAGS += -MMD -MP
 DEP_FILES = $(patsubst %.o,%.d,$(OBJS))
