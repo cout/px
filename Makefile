@@ -31,7 +31,7 @@ GENERATED_FILES += parser/scanner.cpp
 	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
 
 main: $(OBJS)
-	$(CXX) $(LDFLAGS) $(OBJS) -o $@
+	$(CXX) $(LDFLAGS) $^ -o $@
 
 .PHONY: clean
 clean:
