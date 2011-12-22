@@ -1,5 +1,9 @@
 all: main
 
+ifneq (,)
+This makefile requires GNU Make.
+endif
+
 # --- Global build options ---
 
 CPPFLAGS +=
