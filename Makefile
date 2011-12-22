@@ -35,7 +35,7 @@ main: $(OBJS)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS) $(GENERATED_FILES)
+	$(RM) $(OBJS) $(GENERATED_FILES)
 
 CFLAGS += -MMD -MP
 DEP_FILES = $(patsubst %.o,%.d,$(OBJS))
