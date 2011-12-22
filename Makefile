@@ -21,6 +21,9 @@ parser/parser.hpp: parser/parser.y
 	mv parser/parser.h parser/parser.hpp
 
 GENERATED_FILES += parser/parser.hpp
+GENERATED_FILES += parser/parser.cpp
+GENERATED_FILES += parser/parser.h
+GENERATED_FILES += parser/parser.c
 
 parser/scanner.cpp: parser/scanner.rl
 	ragel parser/scanner.rl -o parser/scanner.cpp
